@@ -1,0 +1,18 @@
+.error {
+  color: #a5473b;
+  background: #fff2ed;
+  border-radius: 12px;
+  overflow-wrap: anywhere;
+}
+
+.success {
+  background: #edf5e5;
+  color: var(--green);
+  padding: 16px;
+  border-radius: 12px;
+}
+
+.helper {
+  font-size: 11px;
+  color: var(--muted);
+}

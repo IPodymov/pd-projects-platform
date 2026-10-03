@@ -1,0 +1,14 @@
+.auth {
+  max-width: 480px;
+  margin: 60px auto;
+}
+
+.auth h1 {
+  font-size: 28px;
+}
+
+@media (max-width: 760px) {
+  .auth {
+    margin: 20px auto;
+  }
+}

@@ -1,0 +1,28 @@
+.diff {
+  font-family: monospace;
+  font-size: 12px;
+  overflow-x: auto;
+}
+
+.diff-line {
+  white-space: pre;
+  min-width: max-content;
+  padding: 4px 12px;
+}
+
+.diff-line.add {
+  background: #e6f4e8;
+}
+
+.diff-line.delete {
+  background: #fde7e4;
+}
+
+.diff-line.hunk {
+  background: #eaf0fb;
+  color: #4871a2;
+}
+
+.diff-line.header {
+  color: var(--muted);
+}

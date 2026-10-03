@@ -1,0 +1,27 @@
+{
+  "format_version": 1,
+  "records": [
+    {
+      "model": "publications.topic",
+      "key": "engineering",
+      "fields": {
+        "title": "Инженерные проекты"
+      }
+    },
+    {
+      "model": "publications.topic",
+      "key": "research",
+      "fields": {
+        "title": "Исследования"
+      }
+    },
+    {
+      "model": "publications.topic",
+      "key": "robotics",
+      "fields": {
+        "title": "Робототехника"
+      }
+    }
+  ],
+  "checksum": "c72171ab9985419a8fa4f73fb4825062e7e6fd8f346305dda1f1f136f5eb76c8"
+}

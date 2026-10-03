@@ -1,0 +1,60 @@
+.form {
+  display: grid;
+  gap: 18px;
+  max-width: 600px;
+}
+
+.form label {
+  display: grid;
+  gap: 8px;
+  font-weight: 600;
+  font-size: 12px;
+}
+
+.form input:not([type='file']),
+.form select,
+.filters select,
+.filters input,
+.form textarea {
+  width: 100%;
+  border: 1px solid #d8dfd3;
+  padding: 12px 14px;
+  border-radius: 10px;
+  background: #fff;
+  color: var(--ink);
+}
+
+.form textarea {
+  min-height: 100px;
+}
+
+.form .actions,
+.actions {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.filters {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 24px;
+}
+
+.filters > * {
+  min-width: 130px;
+  flex: 1;
+}
+
+.row-actions {
+  display: flex;
+  gap: 8px;
+}
+
+@media (max-width: 760px) {
+  .form {
+    max-width: none;
+  }
+}

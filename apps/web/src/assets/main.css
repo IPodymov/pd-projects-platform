@@ -1,0 +1,73 @@
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap');
+
+@import './styles/settings/tokens.css';
+@import './styles/layout/shell.css';
+@import './styles/layout/content.css';
+@import './styles/components/cards.css';
+@import './styles/components/forms.css';
+@import './styles/components/feedback.css';
+@import './styles/components/tables.css';
+@import './styles/components/calendar.css';
+@import './styles/components/diff.css';
+@import './styles/components/primevue.css';
+@import './styles/pages/dashboard.css';
+@import './styles/pages/auth.css';
+
+:root {
+  font-family: Manrope, Arial, sans-serif;
+  color: var(--ink);
+  font-size: 14px;
+  background: var(--paper);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+h1 {
+  font-size: 34px;
+  letter-spacing: -1.2px;
+  margin: 0 0 12px;
+  font-weight: 800;
+}
+
+h2 {
+  font-size: 20px;
+  letter-spacing: -0.5px;
+  margin: 0 0 20px;
+}
+
+h3 {
+  font-size: 17px;
+  margin: 0 0 10px;
+}
+
+p {
+  line-height: 1.7;
+}
+
+@media (max-width: 760px) {
+  h1 {
+    font-size: 27px;
+  }
+}
