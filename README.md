@@ -121,6 +121,7 @@ Vercel: Root Directory `apps/web`, включить доступ к файлам
 
 ## Документация
 
+- [Все локальные моковые данные и миксины загрузки](docs/local-mock-data.md).
 - [Бизнес-правила и матрица требований](docs/business-rules.md).
 - [Git-провайдеры и webhooks](docs/integrations.md).
 - [Архитектура и границы модулей](docs/architecture.md).

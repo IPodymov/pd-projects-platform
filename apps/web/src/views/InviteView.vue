@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { errorMessage } from '@/utils/errors'
 import { ref } from 'vue'
 import Button from 'primevue/button'
 import { api } from '@/api'
@@ -20,7 +21,7 @@ async function run(accept = false) {
     )
     message.value = result.detail
   } catch (e) {
-    error.value = String(e)
+    error.value = errorMessage(e)
   } finally {
     busy.value = false
   }

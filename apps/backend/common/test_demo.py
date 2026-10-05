@@ -16,7 +16,7 @@ class DemoDataTests(TestCase):
             call_command("demo_data", stdout=StringIO())
         self.assertEqual(User.objects.count(), 0)
 
-    @override_settings(DEBUG=True)
+    @override_settings(DEBUG=True, LOCAL_DEMO_ENABLED=True)
     def test_repeated_seed_preserves_passwords_work_and_invites(self):
         output = StringIO()
         call_command("demo_data", stdout=output)
@@ -71,3 +71,26 @@ class DemoDataTests(TestCase):
                 )
             ],
         )
+
+    @override_settings(DEBUG=True, LOCAL_DEMO_ENABLED=False)
+    def test_debug_alone_does_not_enable_demo(self):
+        with self.assertRaises(CommandError):
+            call_command("demo_data", stdout=StringIO())
+        self.assertEqual(User.objects.count(), 0)
+
+    @override_settings(DEBUG=True, LOCAL_DEMO_ENABLED=True)
+    def test_external_database_is_rejected(self):
+        from common.demo_mixins import LocalDemoMixin
+
+        with (
+            override_settings(
+                DATABASES={
+                    "default": {
+                        "ENGINE": "django.db.backends.postgresql",
+                        "HOST": "production.example.org",
+                    }
+                }
+            ),
+            self.assertRaises(CommandError),
+        ):
+            LocalDemoMixin().require_local_demo()

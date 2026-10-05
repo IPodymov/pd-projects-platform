@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { errorMessage } from '@/utils/errors'
 import { formatDateTime } from '@/utils/dateTime'
 import { ref, onMounted } from 'vue'
 import Button from 'primevue/button'
@@ -60,7 +61,7 @@ async function load() {
     }
     data.value = await api<Metrics>('crm/?' + params)
   } catch (e) {
-    error.value = String(e)
+    error.value = errorMessage(e)
   } finally {
     loading.value = false
   }
@@ -74,7 +75,7 @@ onMounted(async () => {
       api<Option[]>('staff/'),
     ])
   } catch (e) {
-    error.value = String(e)
+    error.value = errorMessage(e)
   }
   await load()
 })

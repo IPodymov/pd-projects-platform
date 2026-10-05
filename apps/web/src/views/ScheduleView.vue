@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { errorMessage } from '@/utils/errors'
 import { ref, onMounted, computed } from 'vue'
 import Button from 'primevue/button'
 import LessonAttendance from '@/components/LessonAttendance.vue'
@@ -66,7 +67,7 @@ async function load() {
       ])
     }
   } catch (e) {
-    error.value = String(e)
+    error.value = errorMessage(e)
   } finally {
     loading.value = false
   }
@@ -121,7 +122,7 @@ async function save(series = false) {
     show.value = false
     await load()
   } catch (e) {
-    error.value = String(e)
+    error.value = errorMessage(e)
   } finally {
     busy.value = false
   }

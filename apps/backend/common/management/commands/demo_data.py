@@ -1,7 +1,7 @@
 import secrets
 from datetime import timedelta
-from django.core.management.base import BaseCommand, CommandError
-from django.conf import settings
+from django.core.management.base import BaseCommand
+from common.demo_mixins import LocalDemoMixin, DemoScenariosMixin
 from django.db import transaction
 from django.utils import timezone
 from accounts.models import User
@@ -17,7 +17,7 @@ from projects.models import Project, ProjectMember, Task
 from publications.models import Topic, Publication
 
 
-class Command(BaseCommand):
+class Command(LocalDemoMixin, DemoScenariosMixin, BaseCommand):
     help = "Локальные данные для тестирования продукта; повторный запуск не сбрасывает результаты"
 
     def add_arguments(self, parser):
@@ -29,8 +29,7 @@ class Command(BaseCommand):
 
     @transaction.atomic
     def handle(self, *args, **options):
-        if not settings.DEBUG:
-            raise CommandError("Demo разрешено только при DEBUG=True в development")
+        self.require_local_demo()
         inst, _ = Institution.objects.get_or_create(
             name="Демонстрационная школа", kind="school"
         )
@@ -118,9 +117,7 @@ class Command(BaseCommand):
                 "is_demo": True,
             },
         )
-        from common.demo import populate_scenarios
-
-        populate_scenarios(self, inst, cl, course, options["reset_passwords"])
+        self.populate_demo_scenarios(inst, cl, course, options["reset_passwords"])
         self.stdout.write(
             "Development demo ready. Results preserved; passwords reset only with --reset-passwords."
         )

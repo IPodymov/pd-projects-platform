@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { errorMessage } from '@/utils/errors'
 import { onMounted, ref } from 'vue'
 import Button from 'primevue/button'
 import PageState from '@/components/PageState.vue'
@@ -28,7 +29,7 @@ async function load() {
       ])
     }
   } catch (e) {
-    error.value = String(e)
+    error.value = errorMessage(e)
   } finally {
     loading.value = false
   }
@@ -40,7 +41,7 @@ async function markRead(id: string) {
     await api('notifications/' + id + '/read/', 'POST')
     await load()
   } catch (e) {
-    error.value = String(e)
+    error.value = errorMessage(e)
   } finally {
     busy.value = false
   }

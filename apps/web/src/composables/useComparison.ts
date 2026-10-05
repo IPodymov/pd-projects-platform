@@ -1,3 +1,4 @@
+import { errorMessage, jobErrorMessage } from '@/utils/errors'
 import { ref, onBeforeUnmount } from 'vue'
 import { client, apiError } from '@/api'
 import type { components } from '@future/api-client'
@@ -29,12 +30,7 @@ export function useComparison() {
       let job: components['schemas']['Comparison'] = result.data
       for (let attempt = 0; attempt < 90 && current === generation; attempt++) {
         status.value = job.status
-        if (job.status === 'failed')
-          throw Error(
-            'Сравнение завершилось ошибкой: ' +
-              job.error_code +
-              '. Повторите запрос после проверки файлов.',
-          )
+        if (job.status === 'failed') throw Error(jobErrorMessage(job.error_code))
         if (job.status === 'succeeded') {
           const data = job.result as { lines?: DiffLine[]; new_structure?: unknown[] }
           lines.value = data.lines || []
@@ -54,7 +50,7 @@ export function useComparison() {
           'Обработка продолжается. Повторите запрос позже, чтобы получить сохранённый результат.',
         )
     } catch (e) {
-      if (current === generation) error.value = String(e)
+      if (current === generation) error.value = errorMessage(e)
     } finally {
       if (current === generation) busy.value = false
     }

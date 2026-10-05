@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { errorMessage } from '@/utils/errors'
 import { formatDateTime } from '@/utils/dateTime'
 import { ref, onMounted } from 'vue'
 import Button from 'primevue/button'
@@ -38,7 +39,7 @@ async function load() {
       ])
     }
   } catch (e) {
-    error.value = String(e)
+    error.value = errorMessage(e)
   } finally {
     loading.value = false
   }
@@ -59,7 +60,7 @@ async function register(id: string, group = false) {
       .join(' · ')
     await load()
   } catch (e) {
-    error.value = String(e)
+    error.value = errorMessage(e)
   } finally {
     busy.value = false
   }
@@ -71,7 +72,7 @@ async function cancel(id: string) {
     await api('registrations/' + id + '/cancel/', 'POST')
     await load()
   } catch (e) {
-    error.value = String(e)
+    error.value = errorMessage(e)
   } finally {
     busy.value = false
   }

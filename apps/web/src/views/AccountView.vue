@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { errorMessage } from '@/utils/errors'
 import { ref, onMounted } from 'vue'
 import Button from 'primevue/button'
 import { api } from '@/api'
@@ -18,7 +19,7 @@ onMounted(async () => {
     const result = await api<{ display_name: string; date_of_birth: string | null }>('profile/')
     profile.value = { display_name: result.display_name, date_of_birth: result.date_of_birth || '' }
   } catch (e) {
-    error.value = String(e)
+    error.value = errorMessage(e)
   }
 })
 async function saveProfile() {
@@ -35,7 +36,7 @@ async function saveProfile() {
     message.value = 'Профиль обновлён'
     profilePassword.value = ''
   } catch (e) {
-    error.value = String(e)
+    error.value = errorMessage(e)
   } finally {
     busy.value = false
   }
@@ -60,7 +61,7 @@ async function submit() {
       message.value = r.detail
     }
   } catch (e) {
-    error.value = String(e)
+    error.value = errorMessage(e)
   } finally {
     busy.value = false
   }

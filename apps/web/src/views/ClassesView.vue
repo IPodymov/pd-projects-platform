@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { errorMessage } from '@/utils/errors'
 import { onMounted, ref, computed } from 'vue'
 import Button from 'primevue/button'
 import ClassManagement from '@/components/ClassManagement.vue'
@@ -31,7 +32,7 @@ async function load() {
     ])
     if (!selected.value) selected.value = classes.value[0]?.id || ''
   } catch (e) {
-    error.value = String(e)
+    error.value = errorMessage(e)
   } finally {
     loading.value = false
   }
@@ -50,7 +51,7 @@ async function preview() {
     data.append('file', file.value)
     batch.value = await api<Batch>('imports/preview/', 'POST', data)
   } catch (e) {
-    error.value = String(e)
+    error.value = errorMessage(e)
   } finally {
     busy.value = false
   }
@@ -67,7 +68,7 @@ async function apply() {
     batch.value = null
     await load()
   } catch (e) {
-    error.value = String(e)
+    error.value = errorMessage(e)
   } finally {
     busy.value = false
   }
@@ -86,7 +87,7 @@ async function correct() {
     edit.value = ''
     await load()
   } catch (e) {
-    error.value = String(e)
+    error.value = errorMessage(e)
   } finally {
     busy.value = false
   }

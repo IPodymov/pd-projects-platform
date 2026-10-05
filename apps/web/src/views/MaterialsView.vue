@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { errorMessage } from '@/utils/errors'
 import { formatDateTime } from '@/utils/dateTime'
 import { ref, computed, onMounted, watch } from 'vue'
 import { useRoute } from 'vue-router'
@@ -50,7 +51,7 @@ async function load() {
       apps.value = await api<components['schemas']['Application'][]>('competition-applications/')
     }
   } catch (e) {
-    error.value = String(e)
+    error.value = errorMessage(e)
   } finally {
     loading.value = false
   }

@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { errorMessage } from '@/utils/errors'
 import { onMounted, onBeforeUnmount, ref } from 'vue'
 import { useSession } from '@/stores/session'
 import Button from 'primevue/button'
@@ -19,7 +20,7 @@ onMounted(async () => {
   try {
     await session.refresh()
   } catch (e) {
-    error.value = String(e)
+    error.value = errorMessage(e)
   } finally {
     ready.value = true
   }
@@ -31,7 +32,7 @@ async function logout() {
     await session.logout()
     await router.push('/login')
   } catch (e) {
-    error.value = String(e)
+    error.value = errorMessage(e)
   } finally {
     loggingOut.value = false
   }

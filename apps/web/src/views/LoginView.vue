@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { errorMessage } from '@/utils/errors'
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import Button from 'primevue/button'
@@ -18,7 +19,7 @@ async function submit() {
     await session.login(email.value, password.value)
     router.push('/')
   } catch (e) {
-    error.value = String(e)
+    error.value = errorMessage(e)
   } finally {
     busy.value = false
   }

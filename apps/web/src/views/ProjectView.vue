@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { errorMessage } from '@/utils/errors'
 import { formatDateTime } from '@/utils/dateTime'
 import { ref, onMounted, computed, watch } from 'vue'
 import { useRoute } from 'vue-router'
@@ -80,7 +81,7 @@ async function load() {
     if (session.staff)
       members.value = await api<Member[]>('memberships/?classroom=' + p.value.classroom)
   } catch (e) {
-    error.value = String(e)
+    error.value = errorMessage(e)
   } finally {
     loading.value = false
   }

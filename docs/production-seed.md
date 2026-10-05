@@ -2,22 +2,22 @@
 
 ## Различия
 
-| Механизм | Назначение | Запуск |
-|---|---|---|
-| Schema migration | изменение таблиц/constraints, версии кода | manage.py makemigrations; migrate, API pre-deploy |
-| Data migration | детерминированное изменение уже существующих данных для новой схемы | makemigrations --empty <app>, затем RunPython/RunSQL; migrate |
-| Development fixtures/demo | локальный пример сценария, тестовые пользователи и работы | только явная demo_data, development; тестовые фабрики в изолированной test БД |
-| Production seed | отобранные согласованные справочники и утверждённые материалы | export -> validate/diff -> target dry-run -> backup -> apply |
+| Механизм                  | Назначение                                                          | Запуск                                                                        |
+| ------------------------- | ------------------------------------------------------------------- | ----------------------------------------------------------------------------- |
+| Schema migration          | изменение таблиц/constraints, версии кода                           | manage.py makemigrations; migrate, API pre-deploy                             |
+| Data migration            | детерминированное изменение уже существующих данных для новой схемы | makemigrations --empty <app>, затем RunPython/RunSQL; migrate                 |
+| Development fixtures/demo | локальный пример сценария, тестовые пользователи и работы           | только явная demo_data, development; тестовые фабрики в изолированной test БД |
+| Production seed           | отобранные согласованные справочники и утверждённые материалы       | export -> validate/diff -> target dry-run -> backup -> apply                  |
 
 Data migration не является способом перенести локальных учеников или публикации в production. В этой итерации специальные data migrations не потребовались; миграции схемы созданы Django CLI. Demo data создаётся идемпотентной management command, а не startup hook.
 
 ## Allowlist формата 1
 
-| Модель | Ключ | Поля | Условие экспорта |
-|---|---|---|---|
-| publications.topic | code | title | только engineering, robotics, research |
-| publications.publication | slug | title, body, topic, published, approved_for_production, is_demo | только при --include-approved-materials; published=true, approved=true, demo=false |
-| publications.competition | slug | title, requirements, deadline, topic, published, approved_for_production, is_demo | то же |
+| Модель                   | Ключ | Поля                                                                              | Условие экспорта                                                                   |
+| ------------------------ | ---- | --------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------- |
+| publications.topic       | code | title                                                                             | только engineering, robotics, research                                             |
+| publications.publication | slug | title, body, topic, published, approved_for_production, is_demo                   | только при --include-approved-materials; published=true, approved=true, demo=false |
+| publications.competition | slug | title, requirements, deadline, topic, published, approved_for_production, is_demo | то же                                                                              |
 
 Три технических кода — согласованный набор в коде, расширение требует изменения allowlist и review. Произвольные Topic из локальной БД не экспортируются. Public material поля — plain text, авторы, local numeric IDs и произвольные FK отсутствуют.
 

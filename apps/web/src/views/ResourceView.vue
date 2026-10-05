@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { errorMessage } from '@/utils/errors'
 import { computed, ref, watch } from 'vue'
 import { useRoute } from 'vue-router'
 import Button from 'primevue/button'
@@ -119,7 +120,7 @@ async function load() {
       if (f.source) choices.value[f.source] = await api<Row[]>(f.source + '/')
     }
   } catch (e) {
-    error.value = String(e)
+    error.value = errorMessage(e)
   } finally {
     loading.value = false
   }
@@ -152,7 +153,7 @@ async function save() {
     showForm.value = false
     await load()
   } catch (e) {
-    error.value = String(e)
+    error.value = errorMessage(e)
   } finally {
     saving.value = false
   }

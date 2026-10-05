@@ -1,6 +1,7 @@
 from .base import *
 
 DEBUG = True
+LOCAL_DEMO_ENABLED = True
 # Development can only use the local mail catcher, regardless of SMTP variables.
 MAILERS = {
     "default": {

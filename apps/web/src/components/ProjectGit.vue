@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { jobErrorMessage } from '@/utils/errors'
 import { ref, onMounted, onBeforeUnmount } from 'vue'
 import Button from 'primevue/button'
 import FormFeedback from './FormFeedback.vue'
@@ -84,7 +85,8 @@ onBeforeUnmount(() => clearTimeout(timer))
         />
       </div>
       <p v-for="job in jobs.filter((x) => x.repository === r.id)" :key="job.id" class="helper">
-        Синхронизация: {{ job.status }} {{ job.error_code }}
+        Синхронизация: {{ job.status }}
+        {{ job.status === 'failed' ? jobErrorMessage(job.error_code) : '' }}
       </p>
       <article v-for="pr in pulls.filter((x) => x.repository === r.id)" :key="pr.id" class="panel">
         <h3>

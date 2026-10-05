@@ -1,3 +1,4 @@
+import { fieldLabel, readableMessage, statusMessage } from '@/utils/errors'
 import { createApiClient } from '@future/api-client'
 export const baseUrl = (import.meta.env.VITE_API_URL || '').replace(/\/$/, '')
 export const client = createApiClient(baseUrl)
@@ -21,7 +22,7 @@ export class ApiError extends Error {
       (Object.keys(this.fields).length
         ? ' · ' +
           Object.entries(this.fields)
-            .map(([key, values]) => key + ': ' + values.join(' · '))
+            .map(([key, values]) => fieldLabel(key) + ': ' + values.join(' · '))
             .join('; ')
         : '')
     )
@@ -71,21 +72,22 @@ export function apiError(value: unknown, status = 400): ApiError {
   const fields: Record<string, string[]> = {}
   if (body.fields && typeof body.fields === 'object')
     for (const [key, item] of Object.entries(body.fields))
-      fields[key] = Array.isArray(item) ? item.map(String) : [String(item)]
+      fields[key] = Array.isArray(item)
+        ? item.map((value) => readableMessage(String(value)))
+        : [readableMessage(String(item))]
+  const code = typeof body.code === 'string' ? body.code : 'request_error'
+  const specificMessages: Record<string, string> = {
+    authentication_failed: 'Не удалось войти. Проверьте почту и пароль и повторите попытку.',
+    duplicate_or_invalid_relation:
+      'Такая запись уже существует или связанная запись недоступна. Проверьте данные и выбранные записи.',
+  }
   const detail =
-    typeof body.detail === 'string'
-      ? body.detail
-      : status === 404
-        ? 'Запись не найдена или недоступна вашему аккаунту.'
-        : status === 401
-          ? 'Войдите повторно.'
-          : status === 403
-            ? 'Недостаточно прав для этой операции.'
-            : status === 409
-              ? 'Данные изменились. Обновите запись и проверьте ваш ввод.'
-              : status >= 500
-                ? 'Сервис временно недоступен. Повторите операцию позже.'
-                : 'Проверьте поля формы.'
+    specificMessages[code] ||
+    (status >= 500 || [401, 403, 404, 413, 429].includes(status)
+      ? statusMessage(status)
+      : typeof body.detail === 'string' && /[а-яё]/i.test(body.detail)
+        ? body.detail
+        : statusMessage(status))
   return new ApiError(
     detail,
     status,

@@ -26,6 +26,7 @@ SECRET_KEY = os.getenv("SECRET_KEY", "development-only-do-not-use-in-production"
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
+LOCAL_DEMO_ENABLED = False
 
 ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS", "localhost,127.0.0.1,testserver").split(",")
 

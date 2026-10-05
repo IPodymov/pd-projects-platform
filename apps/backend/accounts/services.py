@@ -26,7 +26,7 @@ def request_email_change(actor, new_email, password):
     if User.objects.filter(email__iexact=new_email).exists():
         raise ValidationError("Этот email уже используется")
     if EmailChange.objects.filter(
-        user=actor, created_at__gt=timezone.now() - timedelta(minutes=1)
+            user=actor, created_at__gt=timezone.now() - timedelta(minutes=1)
     ).exists():
         raise ValidationError("Повторите через минуту")
     EmailChange.objects.filter(user=actor, consumed_at__isnull=True).update(
@@ -37,7 +37,7 @@ def request_email_change(actor, new_email, password):
         new_email=new_email,
         expires_at=timezone.now() + timedelta(minutes=10),
     )
-    code = str(secrets.randbelow(10**6)).zfill(6)
+    code = str(secrets.randbelow(10 ** 6)).zfill(6)
     change.code_hash = code_hash(change, code)
     change.encrypted_code = cipher().encrypt(code.encode()).decode()
     change.save()
@@ -64,9 +64,9 @@ def confirm_email_change(actor, pk, code):
             error = True
         else:
             if (
-                User.objects.filter(email__iexact=change.new_email)
-                .exclude(pk=actor.pk)
-                .exists()
+                    User.objects.filter(email__iexact=change.new_email)
+                            .exclude(pk=actor.pk)
+                            .exists()
             ):
                 raise ValidationError("Email уже используется")
             old = actor.email

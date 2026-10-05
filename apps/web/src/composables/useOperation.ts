@@ -1,3 +1,4 @@
+import { errorMessage } from '@/utils/errors'
 import { ref } from 'vue'
 import { ApiError } from '@/api'
 export function useOperation() {
@@ -19,7 +20,7 @@ export function useOperation() {
       success.value = message
       return value
     } catch (e) {
-      error.value = String(e)
+      error.value = e instanceof ApiError ? e.message : errorMessage(e)
       if (e instanceof ApiError) fields.value = e.fields
       return undefined
     } finally {
