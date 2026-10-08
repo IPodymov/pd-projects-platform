@@ -18,3 +18,30 @@ def deliver_email_change(pk):
         settings.DEFAULT_FROM_EMAIL,
         [change.new_email],
     )
+
+
+@shared_task(autoretry_for=(OSError,), retry_backoff=True, max_retries=3)
+def deliver_registration(pk):
+    from .models import RegistrationRequest
+
+    pending = RegistrationRequest.objects.get(pk=pk)
+    if pending.consumed_at or pending.expires_at <= timezone.now():
+        return
+    code = cipher().decrypt(pending.encrypted_code.encode()).decode()
+    send_mail(
+        "Подтверждение регистрации — Инженеры будущего",
+        "Код подтверждения: " + code + "\nКод действует 15 минут.",
+        settings.DEFAULT_FROM_EMAIL,
+        [pending.email],
+    )
+
+
+@shared_task
+def expire_registrations():
+    from .models import RegistrationRequest
+
+    RegistrationRequest.objects.filter(expires_at__lte=timezone.now()).update(
+        password_hash="",
+        code_hash="",
+        encrypted_code="",
+    )

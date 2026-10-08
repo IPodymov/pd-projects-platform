@@ -1,0 +1,17 @@
+.login-view {
+  width: 100%;
+  max-width: 400px;
+  padding: 20px;
+}
+.login-view h1 {
+  font-size: 22px;
+  margin-bottom: 18px;
+}
+.login-switch {
+  font-size: 12px;
+  margin: 20px 0 0;
+}
+.login-switch a {
+  color: var(--primary-ink);
+  font-weight: 700;
+}

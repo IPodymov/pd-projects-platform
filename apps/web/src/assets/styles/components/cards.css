@@ -9,11 +9,11 @@
   background: var(--surface);
   border: 1px solid var(--line);
   border-radius: var(--radius);
-  padding: 26px;
+  padding: 16px;
 }
 
 .stat {
-  padding: 22px;
+  padding: 16px;
 }
 
 .stat-value {
@@ -42,14 +42,14 @@
   display: grid;
   place-items: center;
   border-radius: 12px;
-  background: #eff3e7;
+  background: var(--primary-soft);
   color: var(--green);
   margin-bottom: 22px;
 }
 
 .progress {
   height: 5px;
-  background: #eef1e7;
+  background: var(--primary-soft);
   border-radius: 8px;
   overflow: hidden;
 }
@@ -57,7 +57,7 @@
 .progress span {
   display: block;
   height: 100%;
-  background: #83a363;
+  background: var(--primary);
 }
 
 .card-foot {
@@ -80,8 +80,8 @@
 
 .badge {
   padding: 5px 9px;
-  border-radius: 7px;
-  background: #edf3df;
+  border-radius: 999px;
+  background: var(--primary-soft);
   font-size: 10px;
   color: var(--green);
   display: inline-block;

@@ -1,0 +1,20 @@
+.course-columns {
+  display: grid;
+  grid-template-columns: 225px minmax(0, 1fr);
+  gap: 20px;
+  align-items: start;
+}
+.course-structure,
+.course-content {
+  display: grid;
+  gap: 20px;
+  min-width: 0;
+}
+.course-description {
+  margin-top: 10px;
+}
+@media (max-width: 1000px) {
+  .course-columns {
+    grid-template-columns: 1fr;
+  }
+}

@@ -3,8 +3,8 @@ import { errorMessage } from '@/utils/errors'
 import { formatDateTime } from '@/utils/dateTime'
 import { ref, onMounted } from 'vue'
 import Button from 'primevue/button'
-import WorkshopManagement from '@/components/WorkshopManagement.vue'
-import PageState from '@/components/PageState.vue'
+import WorkshopManagement from '@/components/workshops/WorkshopManagement/WorkshopManagement.vue'
+import PageState from '@/components/common/PageState/PageState.vue'
 import { api } from '@/api'
 import { useSession } from '@/stores/session'
 import type { components } from '@future/api-client'
@@ -92,7 +92,7 @@ async function cancel(id: string) {
       <article v-for="w in workshops" :key="w.id" class="panel">
         <div class="card-icon"><i class="pi pi-sparkles" /></div>
         <span class="tag">{{ w.topic }}</span>
-        <h3 style="margin-top: 14px">{{ w.title }}</h3>
+        <h3 data-layout="workshopsview-style-1">{{ w.title }}</h3>
         <p class="helper">{{ w.description }}</p>
         <p class="card-meta">
           {{ formatDateTime(w.starts_at) }} ·
@@ -125,7 +125,7 @@ async function cancel(id: string) {
         </div>
       </article>
     </div>
-    <section v-if="groupWorkshop" class="panel" style="margin-top: 24px">
+    <section v-if="groupWorkshop" class="panel" data-layout="workshopsview-style-2">
       <h2>Групповая заявка школы</h2>
       <form class="form" @submit.prevent="register(groupWorkshop, true)">
         <label
@@ -157,3 +157,4 @@ async function cancel(id: string) {
   ></PageState>
   <WorkshopManagement @changed="load" />
 </template>
+<style src="./WorkshopsView.css" scoped></style>

@@ -1,0 +1,49 @@
+.institution-stats {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 16px;
+  margin-bottom: 22px;
+}
+.institution-stats > div {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  background: white;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 20px;
+}
+.institution-stats span {
+  color: var(--muted);
+  font-size: 11px;
+}
+.institution-stats strong {
+  font-size: 26px;
+}
+.institutions-workspace {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 280px;
+  gap: 20px;
+  align-items: start;
+}
+.institutions-workspace > * {
+  min-width: 0;
+}
+aside {
+  display: grid;
+  gap: 16px;
+}
+.institution-form {
+  margin-bottom: 20px;
+  max-width: 620px;
+}
+@media (max-width: 1050px) {
+  .institutions-workspace {
+    grid-template-columns: 1fr;
+  }
+}
+@media (max-width: 650px) {
+  .institution-stats {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}

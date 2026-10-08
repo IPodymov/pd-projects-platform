@@ -7,9 +7,26 @@ from common.services import audit, notify
 from .models import CompetitionApplication, ApplicationTransition
 
 
+def require_author(actor, obj=None):
+    from common.access import institution_ids
+
+    if not actor.is_authenticated or not actor.is_active:
+        raise PermissionDenied("Войдите в аккаунт")
+    if actor.is_superuser:
+        return
+    if not institution_ids(actor, ["curator"]).exists() or (
+        obj and obj.author_id != actor.pk
+    ):
+        raise PermissionDenied("Доступно только куратору — автору статьи")
+
+
 @transaction.atomic
 def publish_material(actor, obj, status, expected=None):
-    if not actor.is_superuser:
+    from .models import Publication
+
+    if isinstance(obj, Publication):
+        require_author(actor, obj)
+    elif not actor.is_superuser:
         raise PermissionDenied("Материалы публикует администратор платформы")
     obj = type(obj).objects.select_for_update().get(pk=obj.pk)
     check_revision(obj, expected)

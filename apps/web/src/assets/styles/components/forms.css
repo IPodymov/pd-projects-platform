@@ -1,60 +1,59 @@
 .form {
   display: grid;
-  gap: 18px;
-  max-width: 600px;
+  gap: 14px;
+  max-width: 620px;
 }
-
-.form label {
+label {
   display: grid;
   gap: 8px;
-  font-weight: 600;
   font-size: 12px;
+  color: var(--muted);
 }
-
-.form input:not([type='file']),
-.form select,
-.filters select,
-.filters input,
-.form textarea {
+input,
+select,
+textarea {
   width: 100%;
-  border: 1px solid #d8dfd3;
-  padding: 12px 14px;
-  border-radius: 10px;
+  border: 1px solid #ced7e8;
+  border-radius: 8px;
+  padding: 9px 11px;
   background: #fff;
   color: var(--ink);
+  min-width: 0;
 }
-
-.form textarea {
+input[type='checkbox'],
+input[type='radio'] {
+  width: auto;
+  justify-self: start;
+}
+textarea {
   min-height: 100px;
+  resize: vertical;
+  line-height: 1.55;
 }
-
-.form .actions,
+input:focus,
+select:focus,
+textarea:focus {
+  border-color: var(--primary);
+}
+.filters,
 .actions {
   display: flex;
-  gap: 12px;
+  flex-wrap: wrap;
   align-items: center;
-  flex-wrap: wrap;
-}
-
-.filters {
-  display: flex;
-  gap: 12px;
-  flex-wrap: wrap;
-  margin-bottom: 24px;
-}
-
-.filters > * {
-  min-width: 130px;
-  flex: 1;
-}
-
-.row-actions {
-  display: flex;
   gap: 8px;
 }
-
-@media (max-width: 760px) {
-  .form {
-    max-width: none;
-  }
+.filters {
+  margin: 20px 0;
+}
+.filters > input,
+.filters > select {
+  width: auto;
+  max-width: 100%;
+}
+.helper {
+  font-size: 12px;
+  color: var(--muted);
+}
+.form + .form {
+  margin-top: 20px;
 }

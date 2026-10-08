@@ -677,6 +677,231 @@ paths:
               schema:
                 $ref: '#/components/schemas/Competition'
           description: ''
+  /api/v1/course-lessons/:
+    get:
+      operationId: course_lessons_list
+      parameters:
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      - name: page_size
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      tags:
+      - course-lessons
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedCourseLessonList'
+          description: ''
+    post:
+      operationId: course_lessons_create
+      tags:
+      - course-lessons
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CourseLessonRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/CourseLessonRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/CourseLessonRequest'
+        required: true
+      security:
+      - cookieAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CourseLesson'
+          description: ''
+  /api/v1/course-lessons/{id}/:
+    get:
+      operationId: course_lessons_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this course lesson.
+        required: true
+      tags:
+      - course-lessons
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CourseLesson'
+          description: ''
+    patch:
+      operationId: course_lessons_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this course lesson.
+        required: true
+      tags:
+      - course-lessons
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedCourseLessonRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedCourseLessonRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedCourseLessonRequest'
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CourseLesson'
+          description: ''
+  /api/v1/course-lessons/{id}/complete/:
+    post:
+      operationId: course_lessons_complete_create
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this course lesson.
+        required: true
+      tags:
+      - course-lessons
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Enrollment'
+          description: ''
+  /api/v1/course-materials/:
+    get:
+      operationId: course_materials_list
+      parameters:
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      - name: page_size
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      tags:
+      - course-materials
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedCourseMaterialList'
+          description: ''
+    post:
+      operationId: course_materials_create
+      tags:
+      - course-materials
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CourseMaterialUploadRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/CourseMaterialUploadRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/CourseMaterialUploadRequest'
+        required: true
+      security:
+      - cookieAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CourseMaterial'
+          description: ''
+  /api/v1/course-materials/{id}/:
+    get:
+      operationId: course_materials_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this course material.
+        required: true
+      tags:
+      - course-materials
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CourseMaterial'
+          description: ''
+  /api/v1/course-materials/{id}/download/:
+    get:
+      operationId: course_materials_download_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this course material.
+        required: true
+      tags:
+      - course-materials
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/octet-stream:
+              schema:
+                type: string
+                format: binary
+          description: ''
   /api/v1/course-submissions/:
     get:
       operationId: course_submissions_list
@@ -3007,6 +3232,120 @@ paths:
               schema:
                 $ref: '#/components/schemas/Publication'
           description: ''
+  /api/v1/publications/{id}/attachment/:
+    get:
+      operationId: publications_attachment_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this publication.
+        required: true
+      tags:
+      - publications
+      security:
+      - cookieAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/octet-stream:
+              schema:
+                type: string
+                format: binary
+          description: ''
+  /api/v1/publications/{id}/attachments/:
+    get:
+      operationId: publications_attachments_list
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this publication.
+        required: true
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      - name: page_size
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      tags:
+      - publications
+      security:
+      - cookieAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedPublicationAttachmentList'
+          description: ''
+  /api/v1/publications/{id}/image/:
+    get:
+      operationId: publications_image_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this publication.
+        required: true
+      tags:
+      - publications
+      security:
+      - cookieAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            image/jpeg:
+              schema:
+                type: string
+                format: binary
+          description: ''
+  /api/v1/publications/{id}/remove_attachment/:
+    post:
+      operationId: publications_remove_attachment_create
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this publication.
+        required: true
+      tags:
+      - publications
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PublicationAttachmentRemoveRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PublicationAttachmentRemoveRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PublicationAttachmentRemoveRequest'
+        required: true
+      security:
+      - cookieAuth: []
+      - {}
+      responses:
+        '200':
+          description: No response body
   /api/v1/publications/{id}/transition/:
     post:
       operationId: publications_transition_create
@@ -3041,6 +3380,76 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Publication'
+          description: ''
+  /api/v1/publications/{id}/upload_attachment/:
+    post:
+      operationId: publications_upload_attachment_create
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this publication.
+        required: true
+      tags:
+      - publications
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BlogImageUploadRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/BlogImageUploadRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/BlogImageUploadRequest'
+        required: true
+      security:
+      - cookieAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PublicationAttachment'
+          description: ''
+  /api/v1/publications/{id}/upload_image/:
+    post:
+      operationId: publications_upload_image_create
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this publication.
+        required: true
+      tags:
+      - publications
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BlogImageUploadRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/BlogImageUploadRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/BlogImageUploadRequest'
+        required: true
+      security:
+      - cookieAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BlogImageResult'
           description: ''
   /api/v1/pull-requests/:
     get:
@@ -3124,6 +3533,60 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/LearningReview'
+          description: ''
+  /api/v1/registration/confirm/:
+    post:
+      operationId: registration_confirm_create
+      tags:
+      - registration
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EmailChangeConfirmationRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/EmailChangeConfirmationRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/EmailChangeConfirmationRequest'
+        required: true
+      security:
+      - cookieAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Session'
+          description: ''
+  /api/v1/registration/request/:
+    post:
+      operationId: registration_request_create
+      tags:
+      - registration
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RegistrationInputRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/RegistrationInputRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/RegistrationInputRequest'
+        required: true
+      security:
+      - cookieAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EmailChangeResponse'
           description: ''
   /api/v1/registrations/:
     get:
@@ -4190,6 +4653,243 @@ paths:
               schema:
                 $ref: '#/components/schemas/Topic'
           description: ''
+  /api/v1/users/:
+    get:
+      operationId: users_list
+      parameters:
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      - name: page_size
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      tags:
+      - users
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedManagedUserList'
+          description: ''
+  /api/v1/users/{id}/:
+    get:
+      operationId: users_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this user.
+        required: true
+      tags:
+      - users
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ManagedUser'
+          description: ''
+    patch:
+      operationId: users_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this user.
+        required: true
+      tags:
+      - users
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedManagedUserRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedManagedUserRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedManagedUserRequest'
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ManagedUser'
+          description: ''
+  /api/v1/users/{id}/add_course/:
+    post:
+      operationId: users_add_course_create
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this user.
+        required: true
+      tags:
+      - users
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CourseAssignmentInputRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/CourseAssignmentInputRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/CourseAssignmentInputRequest'
+        required: true
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ManagedUser'
+          description: ''
+  /api/v1/users/{id}/add_project/:
+    post:
+      operationId: users_add_project_create
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this user.
+        required: true
+      tags:
+      - users
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProjectAssignmentInputRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/ProjectAssignmentInputRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/ProjectAssignmentInputRequest'
+        required: true
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ManagedUser'
+          description: ''
+  /api/v1/users/{id}/create_project/:
+    post:
+      operationId: users_create_project_create
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this user.
+        required: true
+      tags:
+      - users
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NewUserProjectInputRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/NewUserProjectInputRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/NewUserProjectInputRequest'
+        required: true
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ManagedUser'
+          description: ''
+  /api/v1/users/{id}/set_class/:
+    post:
+      operationId: users_set_class_create
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this user.
+        required: true
+      tags:
+      - users
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ClassAssignmentInputRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/ClassAssignmentInputRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/ClassAssignmentInputRequest'
+        required: true
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ManagedUser'
+          description: ''
+  /api/v1/users/add_student/:
+    post:
+      operationId: users_add_student_create
+      tags:
+      - users
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/StudentAttachInputRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/StudentAttachInputRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/StudentAttachInputRequest'
+        required: true
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ManagedUser'
+          description: ''
   /api/v1/webhooks/{id}/:
     post:
       operationId: webhooks_create
@@ -4771,6 +5471,37 @@ components:
         * `all` - Все
         * `partners` - Партнёры
         * `selected` - Выбранные школы
+    BlogImageResult:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        path:
+          type: string
+      required:
+      - id
+      - path
+    BlogImageUploadRequest:
+      type: object
+      properties:
+        file:
+          type: string
+          format: binary
+      required:
+      - file
+    ClassAssignmentInputRequest:
+      type: object
+      properties:
+        classroom:
+          type: string
+          format: uuid
+        membership:
+          type: string
+          format: uuid
+          nullable: true
+      required:
+      - classroom
     Classroom:
       type: object
       properties:
@@ -4977,6 +5708,139 @@ components:
       - status
       - title
       - updated_at
+    CourseAssignmentInputRequest:
+      type: object
+      properties:
+        course:
+          type: string
+          format: uuid
+        classroom:
+          type: string
+          format: uuid
+      required:
+      - classroom
+      - course
+    CourseLesson:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        course:
+          type: string
+          format: uuid
+        title:
+          type: string
+          maxLength: 200
+        body:
+          type: string
+        position:
+          type: integer
+          maximum: 9223372036854775807
+          minimum: 0
+          format: int64
+        completed:
+          type: boolean
+          readOnly: true
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+      required:
+      - body
+      - completed
+      - course
+      - id
+      - title
+      - updated_at
+    CourseLessonRequest:
+      type: object
+      properties:
+        course:
+          type: string
+          format: uuid
+        title:
+          type: string
+          minLength: 1
+          maxLength: 200
+        body:
+          type: string
+          minLength: 1
+        position:
+          type: integer
+          maximum: 9223372036854775807
+          minimum: 0
+          format: int64
+      required:
+      - body
+      - course
+      - title
+    CourseMaterial:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        course:
+          type: string
+          format: uuid
+          readOnly: true
+        title:
+          type: string
+          readOnly: true
+        author:
+          type: integer
+          readOnly: true
+        author_name:
+          type: string
+          readOnly: true
+        filename:
+          type: string
+          readOnly: true
+        size:
+          type: integer
+          readOnly: true
+        teaching_resource:
+          type: boolean
+          readOnly: true
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+      required:
+      - author
+      - author_name
+      - course
+      - created_at
+      - filename
+      - id
+      - size
+      - teaching_resource
+      - title
+      - updated_at
+    CourseMaterialUploadRequest:
+      type: object
+      properties:
+        course:
+          type: string
+          format: uuid
+        title:
+          type: string
+          minLength: 1
+          maxLength: 200
+        file:
+          type: string
+          format: binary
+      required:
+      - course
+      - file
+      - title
     CourseRequest:
       type: object
       properties:
@@ -5789,6 +6653,80 @@ components:
       required:
       - email
       - password
+    ManagedUser:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        email:
+          type: string
+          format: email
+          readOnly: true
+        name:
+          type: string
+          readOnly: true
+        display_name:
+          type: string
+          maxLength: 200
+        date_of_birth:
+          type: string
+          format: date
+          nullable: true
+        is_active:
+          type: boolean
+          title: Активный
+          description: Отметьте, если пользователь должен считаться активным. Уберите
+            эту отметку вместо удаления учётной записи.
+        email_verified_at:
+          type: string
+          format: date-time
+          readOnly: true
+          nullable: true
+        date_joined:
+          type: string
+          format: date-time
+          readOnly: true
+          title: Дата регистрации
+        memberships:
+          type: array
+          items:
+            type: object
+            additionalProperties: {}
+          readOnly: true
+        enrollments:
+          type: array
+          items:
+            type: object
+            additionalProperties: {}
+          readOnly: true
+        projects:
+          type: array
+          items:
+            type: object
+            additionalProperties: {}
+          readOnly: true
+        staff_assignments:
+          type: array
+          items:
+            type: object
+            additionalProperties: {}
+          readOnly: true
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+      required:
+      - date_joined
+      - email
+      - email_verified_at
+      - enrollments
+      - id
+      - memberships
+      - name
+      - projects
+      - staff_assignments
+      - updated_at
     MaterialTransitionRequest:
       type: object
       properties:
@@ -5998,6 +6936,22 @@ components:
         * `submitted` - На проверке
         * `revision` - Доработка
         * `accepted` - Принят
+    NewUserProjectInputRequest:
+      type: object
+      properties:
+        title:
+          type: string
+          minLength: 1
+          maxLength: 200
+        description:
+          type: string
+          default: ''
+        classroom:
+          type: string
+          format: uuid
+      required:
+      - classroom
+      - title
     Notification:
       type: object
       properties:
@@ -6172,6 +7126,29 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Competition'
+    PaginatedCourseLessonList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/CourseLesson'
     PaginatedCourseList:
       type: object
       required:
@@ -6195,6 +7172,29 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Course'
+    PaginatedCourseMaterialList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/CourseMaterial'
     PaginatedCourseWorkList:
       type: object
       required:
@@ -6402,6 +7402,29 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Lesson'
+    PaginatedManagedUserList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/ManagedUser'
     PaginatedMemberList:
       type: object
       required:
@@ -6563,6 +7586,29 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Prospect'
+    PaginatedPublicationAttachmentList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/PublicationAttachment'
     PaginatedPublicationList:
       type: object
       required:
@@ -7050,6 +8096,24 @@ components:
           minLength: 1
         visibility:
           $ref: '#/components/schemas/VisibilityEnum'
+    PatchedCourseLessonRequest:
+      type: object
+      properties:
+        course:
+          type: string
+          format: uuid
+        title:
+          type: string
+          minLength: 1
+          maxLength: 200
+        body:
+          type: string
+          minLength: 1
+        position:
+          type: integer
+          maximum: 9223372036854775807
+          minimum: 0
+          format: int64
     PatchedCourseRequest:
       type: object
       properties:
@@ -7141,6 +8205,21 @@ components:
           minimum: 1
           writeOnly: true
           default: 1
+    PatchedManagedUserRequest:
+      type: object
+      properties:
+        display_name:
+          type: string
+          maxLength: 200
+        date_of_birth:
+          type: string
+          format: date
+          nullable: true
+        is_active:
+          type: boolean
+          title: Активный
+          description: Отметьте, если пользователь должен считаться активным. Уберите
+            эту отметку вместо удаления учётной записи.
     PatchedMemberRequest:
       type: object
       properties:
@@ -7203,6 +8282,9 @@ components:
         body:
           type: string
           minLength: 1
+        lead:
+          type: string
+          maxLength: 500
         topic:
           type: string
           minLength: 1
@@ -7406,6 +8488,26 @@ components:
       - submitted_tasks
       - title
       - updated_at
+    ProjectAssignmentInputRequest:
+      type: object
+      properties:
+        project:
+          type: string
+          format: uuid
+        role:
+          allOf:
+          - $ref: '#/components/schemas/ProjectAssignmentInputRoleEnum'
+          default: member
+      required:
+      - project
+    ProjectAssignmentInputRoleEnum:
+      enum:
+      - member
+      - leader
+      type: string
+      description: |-
+        * `member` - member
+        * `leader` - leader
     ProjectRequest:
       type: object
       properties:
@@ -7498,6 +8600,20 @@ components:
           maxLength: 200
         body:
           type: string
+        lead:
+          type: string
+          maxLength: 500
+        author:
+          type: integer
+          readOnly: true
+          nullable: true
+        author_name:
+          type: string
+          readOnly: true
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
         topic:
           type: string
         visibility:
@@ -7510,13 +8626,38 @@ components:
           format: date-time
           readOnly: true
       required:
+      - author
+      - author_name
       - body
+      - created_at
       - id
       - slug
       - status
       - title
       - topic
       - updated_at
+    PublicationAttachment:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        filename:
+          type: string
+        size:
+          type: integer
+      required:
+      - filename
+      - id
+      - size
+    PublicationAttachmentRemoveRequest:
+      type: object
+      properties:
+        attachment:
+          type: string
+          format: uuid
+      required:
+      - attachment
     PublicationRequest:
       type: object
       properties:
@@ -7532,6 +8673,9 @@ components:
         body:
           type: string
           minLength: 1
+        lead:
+          type: string
+          maxLength: 500
         topic:
           type: string
           minLength: 1
@@ -7644,6 +8788,30 @@ components:
       - updated_at
       - user
       - workshop
+    RegistrationInputRequest:
+      type: object
+      properties:
+        display_name:
+          type: string
+          minLength: 1
+          maxLength: 200
+        email:
+          type: string
+          format: email
+          minLength: 1
+        password:
+          type: string
+          writeOnly: true
+          minLength: 1
+          maxLength: 128
+        date_of_birth:
+          type: string
+          format: date
+          nullable: true
+      required:
+      - display_name
+      - email
+      - password
     RegistrationStatus:
       enum:
       - confirmed
@@ -7849,6 +9017,19 @@ components:
         * `teacher` - Преподаватель
         * `organizer` - Организатор
         * `workshop_teacher` - Преподаватель мастер-класса
+    StudentAttachInputRequest:
+      type: object
+      properties:
+        email:
+          type: string
+          format: email
+          minLength: 1
+        classroom:
+          type: string
+          format: uuid
+      required:
+      - classroom
+      - email
     Submission:
       type: object
       properties:

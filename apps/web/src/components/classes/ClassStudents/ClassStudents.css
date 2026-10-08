@@ -1,0 +1,50 @@
+.class-stats {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+  margin-bottom: 20px;
+}
+.class-stats > div {
+  background: white;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.class-stats span {
+  color: var(--muted);
+  font-size: 11px;
+}
+.class-stats strong {
+  font-size: 23px;
+}
+.students-heading {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  align-items: center;
+  margin-bottom: 12px;
+}
+.students-heading h2 {
+  margin: 0;
+}
+.students-heading input {
+  max-width: 200px;
+}
+td a {
+  color: var(--primary);
+}
+@media (max-width: 600px) {
+  .class-stats {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .students-heading {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .students-heading input {
+    max-width: none;
+  }
+}

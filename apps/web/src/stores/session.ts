@@ -11,6 +11,9 @@ export const useSession = defineStore('session', () => {
   const managesSchedule = computed(
     () => institutionAdmin.value || !!user.value?.roles.includes('curator'),
   )
+  const managesCourses = computed(
+    () => managesSchedule.value || !!user.value?.roles.includes('teacher'),
+  )
   async function refresh() {
     const result = await client.GET('/api/v1/session/')
     if (!result.data) throw new Error('Не удалось загрузить сессию')
@@ -25,5 +28,5 @@ export const useSession = defineStore('session', () => {
     await api('logout/', 'POST')
     await refresh()
   }
-  return { user, staff, institutionAdmin, managesSchedule, refresh, login, logout }
+  return { user, staff, institutionAdmin, managesSchedule, managesCourses, refresh, login, logout }
 })

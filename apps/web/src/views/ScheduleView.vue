@@ -2,8 +2,10 @@
 import { errorMessage } from '@/utils/errors'
 import { ref, onMounted, computed } from 'vue'
 import Button from 'primevue/button'
-import LessonAttendance from '@/components/LessonAttendance.vue'
-import PageState from '@/components/PageState.vue'
+import ScheduleLessonForm from '@/components/schedule/ScheduleLessonForm/ScheduleLessonForm.vue'
+import ScheduleCalendar from '@/components/schedule/ScheduleCalendar/ScheduleCalendar.vue'
+import LessonAttendance from '@/components/schedule/LessonAttendance/LessonAttendance.vue'
+import PageState from '@/components/common/PageState/PageState.vue'
 import { api } from '@/api'
 import { toLocalDateTime, formatDateTime } from '@/utils/dateTime'
 import { useSession } from '@/stores/session'
@@ -16,7 +18,7 @@ const session = useSession(),
   classes = ref<Class[]>([]),
   courses = ref<components['schemas']['Course'][]>([]),
   staff = ref<Staff[]>([]),
-  mode = ref('month'),
+  mode = ref('week'),
   anchor = ref(new Date().toISOString().slice(0, 10)),
   loading = ref(true),
   error = ref(''),
@@ -51,8 +53,14 @@ const days = computed(() => {
   } else d.setDate(d.getDate() - ((d.getDay() + 6) % 7))
   return Array.from({ length }, (_, n) => new Date(d.getFullYear(), d.getMonth(), d.getDate() + n))
 })
-function onDay(l: Lesson, d: Date) {
-  return new Date(l.starts_at).toLocaleDateString() === d.toLocaleDateString()
+function navigate(delta: number) {
+  const date = new Date(anchor.value + 'T12:00:00')
+  if (mode.value === 'month') date.setMonth(date.getMonth() + delta)
+  else date.setDate(date.getDate() + delta * 7)
+  anchor.value = toLocalDateTime(date.toISOString()).slice(0, 10)
+}
+function today() {
+  anchor.value = toLocalDateTime(new Date().toISOString()).slice(0, 10)
 }
 async function load() {
   loading.value = true
@@ -144,7 +152,20 @@ async function save(series = false) {
       @click="open()"
     />
   </div>
-  <div class="filters">
+  <div class="filters calendar-controls">
+    <Button
+      label="Предыдущая"
+      icon="pi pi-chevron-left"
+      severity="secondary"
+      @click="navigate(-1)"
+    />
+    <Button label="Сегодня" severity="secondary" @click="today" />
+    <Button
+      label="Следующая"
+      icon="pi pi-chevron-right"
+      severity="secondary"
+      @click="navigate(1)"
+    />
     <input v-model="anchor" type="date" aria-label="Дата календаря" /><select
       v-model="mode"
       aria-label="Представление"
@@ -155,27 +176,13 @@ async function save(series = false) {
     </select>
   </div>
   <PageState :loading="loading" :error="error" @retry="load"
-    ><div v-if="mode !== 'list'" class="panel calendar-container">
-      <p v-if="!lessons.length" class="helper">Занятий пока нет.</p>
-      <div class="calendar">
-        <div v-for="day in days" :key="day.toISOString()" class="calendar-day">
-          <strong>{{
-            day.toLocaleDateString('ru', { day: 'numeric', month: 'short', weekday: 'short' })
-          }}</strong
-          ><button
-            v-for="l in lessons.filter((x) => onDay(x, day))"
-            :key="l.id"
-            class="calendar-event"
-            @click="open(l)"
-          >
-            {{
-              new Date(l.starts_at).toLocaleTimeString('ru', { hour: '2-digit', minute: '2-digit' })
-            }}
-            · {{ l.title }}<br />{{ l.status }}
-          </button>
-        </div>
-      </div>
-    </div>
+    ><ScheduleCalendar
+      v-if="mode !== 'list'"
+      :lessons="lessons"
+      :days="days"
+      :mode="mode"
+      @select="open"
+    />
     <div v-else class="panel table-wrap">
       <table>
         <thead>
@@ -200,7 +207,7 @@ async function save(series = false) {
       <p v-if="!lessons.length" class="helper">Занятий пока нет.</p>
     </div></PageState
   >
-  <section v-if="show" class="panel" style="margin-top: 24px">
+  <section v-if="show" class="panel" data-layout="scheduleview-style-1">
     <h2>{{ edit ? 'Детали занятия' : 'Новое занятие' }}</h2>
     <div v-if="!session.managesSchedule">
       <p>{{ edit?.title }}</p>
@@ -210,87 +217,20 @@ async function save(series = false) {
       >
       <p v-else>{{ edit?.location }} · {{ edit?.room }}</p>
     </div>
-    <form v-else class="form" @submit.prevent="save()">
-      <label>Название<input v-model="form.title" required /></label
-      ><template v-if="!edit"
-        ><label
-          >Класс<select v-model="form.classroom" required>
-            <option v-for="cl in classes" :key="cl.id" :value="cl.id">{{ cl.name }}</option>
-          </select></label
-        ><label
-          >Курс (необязательно)<select v-model="form.course">
-            <option :value="null">Занятие класса</option>
-            <option
-              v-for="c in courses.filter(
-                (c) =>
-                  c.status === 'published' &&
-                  c.institution === classes.find((x) => x.id === form.classroom)?.institution,
-              )"
-              :key="c.id"
-              :value="c.id"
-            >
-              {{ c.title }}
-            </option>
-          </select></label
-        ><label
-          >Преподаватель<select v-model="form.teacher" required>
-            <option
-              v-for="s in staff.filter((s) => s.role === 'teacher')"
-              :key="s.id"
-              :value="s.user"
-            >
-              {{ s.name || s.user }}
-            </option>
-          </select></label
-        ></template
-      ><label>Начало<input v-model="form.starts_at" type="datetime-local" required /></label
-      ><label>Окончание<input v-model="form.ends_at" type="datetime-local" required /></label
-      ><label>Часовой пояс серии<input v-model="form.timezone" required /></label
-      ><label
-        >Формат<select v-model="form.format">
-          <option value="online">Онлайн</option>
-          <option value="onsite">Очно</option>
-        </select></label
-      ><label v-if="form.format === 'online'"
-        >Ссылка HTTPS<input v-model="form.online_url" type="url" required /></label
-      ><template v-else
-        ><label>Место<input v-model="form.location" required /></label
-        ><label>Аудитория<input v-model="form.room" required /></label></template
-      ><label
-        >Статус<select v-model="form.status">
-          <option value="scheduled">Запланировано</option>
-          <option value="rescheduled">Перенесено</option>
-          <option value="cancelled">Отменено</option>
-          <option value="completed">Проведено</option>
-        </select></label
-      ><label v-if="!edit"
-        >Повторять каждую неделю, всего занятий<input
-          v-model.number="form.repeat_weeks"
-          type="number"
-          min="1"
-          max="52"
-      /></label>
-      <div class="actions">
-        <Button
-          type="submit"
-          :label="edit ? 'Изменить это занятие' : 'Создать занятия'"
-          :loading="busy"
-        /><Button
-          v-if="edit?.series"
-          label="Формат и статус всей серии"
-          severity="secondary"
-          :loading="busy"
-          @click="save(true)"
-        />
-      </div>
-      <p class="helper">
-        Исключения не изменяются вместе с серией. Время всей серии меняется через отмену и создание
-        новой.
-      </p>
-    </form>
+    <ScheduleLessonForm
+      v-else
+      v-model="form"
+      :edit="edit"
+      :classes="classes"
+      :courses="courses"
+      :staff="staff"
+      :busy="busy"
+      @save="save"
+    />
   </section>
   <LessonAttendance
     v-if="edit && session.staff && new Date(edit.starts_at) <= new Date()"
     :lesson="edit"
   />
 </template>
+<style src="./ScheduleView.css" scoped></style>

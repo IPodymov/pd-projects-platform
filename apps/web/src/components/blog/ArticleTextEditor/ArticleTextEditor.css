@@ -1,0 +1,19 @@
+.article-text-editor {
+  display: grid;
+  gap: 12px;
+}
+.article-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.article-text-editor textarea {
+  min-height: 340px;
+}
+.article-hidden-input {
+  display: none;
+}
+.article-text-editor p {
+  margin: 0;
+  font-size: 11px;
+}

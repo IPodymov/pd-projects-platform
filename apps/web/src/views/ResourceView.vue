@@ -3,7 +3,7 @@ import { errorMessage } from '@/utils/errors'
 import { computed, ref, watch } from 'vue'
 import { useRoute } from 'vue-router'
 import Button from 'primevue/button'
-import PageState from '@/components/PageState.vue'
+import PageState from '@/components/common/PageState/PageState.vue'
 import { api, apiPage } from '@/api'
 import { useSession } from '@/stores/session'
 type Row = { id?: string; title?: string; name?: string; [key: string]: unknown }
@@ -102,7 +102,7 @@ const route = useRoute(),
 const canCreate = computed(() => {
   if (resource.value === 'institutions') return !!session.user?.platform_admin
   if (['classrooms', 'invitations'].includes(resource.value)) return session.institutionAdmin
-  if (resource.value === 'courses') return session.managesSchedule
+  if (resource.value === 'courses') return session.managesCourses
   return session.staff
 })
 async function load() {
@@ -173,7 +173,7 @@ async function save() {
       @click="showForm = !showForm"
     />
   </div>
-  <section v-if="showForm" class="panel" style="margin-bottom: 24px">
+  <section v-if="showForm" class="panel" data-layout="resourceview-style-1">
     <form class="form" @submit.prevent="save">
       <label v-for="f in config?.fields" :key="f.key"
         >{{ f.label
@@ -227,3 +227,4 @@ async function save() {
     ><Button label="Далее" :disabled="page * 50 >= count || loading" @click="changePage(1)" />
   </div>
 </template>
+<style src="./ResourceView.css" scoped></style>

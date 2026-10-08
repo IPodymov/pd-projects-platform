@@ -1,0 +1,23 @@
+.project-history h2 {
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--line);
+  margin-bottom: 0;
+}
+.project-history article {
+  padding: 12px 0;
+  border-bottom: 1px solid var(--line);
+  font-size: 12px;
+  overflow-wrap: anywhere;
+}
+.project-history article:last-child {
+  border: 0;
+  padding-bottom: 0;
+}
+.project-history p {
+  margin: 4px 0;
+  color: var(--muted);
+}
+.project-history time {
+  font-size: 11px;
+  color: var(--muted);
+}

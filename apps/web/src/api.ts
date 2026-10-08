@@ -42,7 +42,10 @@ function remember(path: string, data: unknown) {
     remember(path, row.results)
     return
   }
-  if (typeof row.id === 'string' && typeof row.updated_at === 'string') {
+  if (
+    (typeof row.id === 'string' || typeof row.id === 'number') &&
+    typeof row.updated_at === 'string'
+  ) {
     const resource = path.match(/\/api\/v1\/[^/]+\//)?.[0]
     if (resource) revisions.set(resource + row.id + '/', row.updated_at)
   }

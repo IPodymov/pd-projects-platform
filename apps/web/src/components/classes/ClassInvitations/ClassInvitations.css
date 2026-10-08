@@ -1,0 +1,15 @@
+[data-layout='classesview-style-1'] {
+  margin-top: 22px;
+}
+[data-layout='classesview-style-2'] {
+  margin-top: 22px;
+}
+.panel {
+  margin-bottom: 16px;
+}
+.actions {
+  align-items: stretch;
+}
+input[type='file'] {
+  width: 100%;
+}

@@ -14,40 +14,9 @@ def upload_version(actor, document, upload, restored_from=None):
     project_access(actor, document.project)
     # Lock parent; serializes previous pointer even for concurrent uploads.
     document = Document.objects.select_for_update().get(pk=document.pk)
-    ext = Path(upload.name).suffix.lower()
-    if ext not in {".txt", ".md", ".csv", ".docx", ".pptx"}:
-        raise ValidationError("Поддерживаются TXT, MD, CSV, DOCX, PPTX")
-    if upload.size > 20 * 1024 * 1024:
-        raise ValidationError("Максимум 20 МБ")
-    content = upload.read()
-    text = ""
-    if ext in {".txt", ".md", ".csv"}:
-        try:
-            text = content.decode("utf-8-sig")
-        except UnicodeDecodeError:
-            raise ValidationError("Текст должен быть в UTF-8")
-    else:
-        import io, zipfile
+    from common.uploads import validate_attachment
 
-        try:
-            with zipfile.ZipFile(io.BytesIO(content)) as z:
-                if (
-                    len(z.infolist()) > 5000
-                    or sum(f.file_size for f in z.infolist()) > 50 * 1024 * 1024
-                ):
-                    raise ValidationError("Слишком большой распакованный документ")
-                required = (
-                    "word/document.xml" if ext == ".docx" else "ppt/presentation.xml"
-                )
-                for item in z.infolist():
-                    if item.filename.lower().endswith((".xml", ".rels")):
-                        xml = z.read(item)
-                        if b"<!DOCTYPE" in xml or b"<!ENTITY" in xml:
-                            raise ValidationError("XML с DTD/ENTITY не принимается")
-                if required not in z.namelist():
-                    raise ValidationError("Неверный формат документа")
-        except zipfile.BadZipFile, RuntimeError, NotImplementedError, EOFError:
-            raise ValidationError("Повреждённый документ")
+    content, ext, text = validate_attachment(upload)
     previous = document.versions.order_by("-created_at").first()
     v = DocumentVersion(
         document=document,
@@ -60,7 +29,9 @@ def upload_version(actor, document, upload, restored_from=None):
         text_content=text,
         extraction_status="done"
         if text or ext in {".txt", ".md", ".csv"}
-        else "pending",
+        else "pending"
+        if ext in {".docx", ".pptx"}
+        else "unavailable",
     )
     v.file.save(str(uuid.uuid4()) + ext, ContentFile(content), save=False)
     v.save()
@@ -90,6 +61,10 @@ def compare(actor, old, new):
     project_access(actor, new.document.project)
     if old.document_id != new.document_id:
         raise ValidationError("Версии разных документов")
+    if "unavailable" in {old.extraction_status, new.extraction_status}:
+        raise ValidationError(
+            "Для PDF и изображений доступно скачивание, сравнение текста не поддерживается"
+        )
     if old.extraction_status != "done" or new.extraction_status != "done":
         raise ValidationError("Извлечение текста ещё не завершено")
     # Structured text lines; frontend escapes content instead of rendering arbitrary HTML.

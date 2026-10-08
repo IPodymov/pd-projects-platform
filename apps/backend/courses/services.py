@@ -2,7 +2,7 @@ from django.db import transaction
 from django.utils import timezone
 from rest_framework.exceptions import ValidationError
 from common.api import BusinessError, check_revision
-from common.access import require_class, require_institution
+from common.access import require_class, require_institution, institution_ids
 from common.services import audit, notify
 from common.reviews import validate_work_review
 from common.access import teacher_recipients
@@ -12,19 +12,28 @@ from .models import Course, Enrollment, CourseSubmission, CourseReview
 
 
 def progress(enrollment):
+    from .models import LessonCompletion
+
     tasks = enrollment.course.assignments.filter(required=True)
     accepted = (
         tasks.filter(submissions__enrollment=enrollment, submissions__status="accepted")
         .distinct()
         .count()
     )
-    return round(100 * accepted / tasks.count()) if tasks.exists() else 0
+    lessons = enrollment.course.lessons.all()
+    completed = LessonCompletion.objects.filter(
+        enrollment=enrollment, lesson__in=lessons
+    ).count()
+    total = tasks.count() + lessons.count()
+    return 100 * (accepted + completed) // total if total else 0
 
 
 @transaction.atomic
 def change_course(actor, course, status, expected=None):
     course = Course.objects.select_for_update().get(pk=course.pk)
-    require_institution(actor, course.institution)
+    require_institution(
+        actor, course.institution, roles=("admin", "curator", "teacher")
+    )
     check_revision(course, expected)
     if (
         status
@@ -33,8 +42,12 @@ def change_course(actor, course, status, expected=None):
         ]
     ):
         raise BusinessError("Недопустимый переход курса", "invalid_transition")
-    if status == "published" and not course.assignments.exists():
-        raise BusinessError("Добавьте задания перед публикацией", "course_empty")
+    if status == "published" and not (
+        course.assignments.exists() or course.lessons.exists()
+    ):
+        raise BusinessError(
+            "Добавьте уроки или задания перед публикацией", "course_empty"
+        )
     course.status = status
     course.save()
     audit(actor, "course.transition", course, course.institution, {"status": status})
@@ -47,11 +60,14 @@ def enroll(actor, course, user, classroom):
     require_class(actor, classroom, staff=actor != user)
     if course.status != "published":
         raise BusinessError("Курс не открыт для записи", "course_not_open")
-    if (
-        classroom.institution_id != course.institution_id
-        or not StudentMembership.objects.filter(
-            user=user, classroom=classroom, ended_at__isnull=True
-        ).exists()
+    staff_self_enrollment = user == actor and course.institution_id in institution_ids(
+        user, ["teacher", "curator", "admin"]
+    )
+    student_member = StudentMembership.objects.filter(
+        user=user, classroom=classroom, ended_at__isnull=True
+    ).exists()
+    if classroom.institution_id != course.institution_id or not (
+        staff_self_enrollment or student_member
     ):
         raise ValidationError(
             {"classroom": "Участник должен состоять в классе учреждения курса"}
@@ -212,3 +228,35 @@ def review_work(actor, obj, result, feedback, expected=None):
         event_key=f"course-review:{obj.pk}",
     )
     return obj
+
+
+@transaction.atomic
+def complete_lesson(actor, lesson):
+    from .models import LessonCompletion
+
+    course = Course.objects.select_for_update().get(pk=lesson.course_id)
+    enrollment = (
+        Enrollment.objects.select_for_update()
+        .filter(course=course, user=actor, status__in=["active", "completed"])
+        .first()
+    )
+    if not enrollment or course.status != "published":
+        raise BusinessError(
+            "Нужна активная запись на опубликованный курс", "enrollment_inactive"
+        )
+    require_class(actor, enrollment.classroom)
+    completion, created = LessonCompletion.objects.get_or_create(
+        lesson=lesson, enrollment=enrollment
+    )
+    if created:
+        LearningActivity.objects.create(
+            actor=actor,
+            classroom=enrollment.classroom,
+            kind="course.lesson_completed",
+            target=str(lesson.pk),
+        )
+        audit(actor, "course.lesson_completed", completion, course.institution)
+    if enrollment.status == "active" and progress(enrollment) == 100:
+        enrollment.status = "completed"
+        enrollment.save()
+    return enrollment

@@ -121,6 +121,10 @@ Vercel: Root Directory `apps/web`, включить доступ к файлам
 
 ## Документация
 
+- [Регистрация и управление учётными записями](docs/registration-and-accounts.md).
+
+- [Курсы, материалы студентов и блог кураторов: исследование и сценарии](docs/lms-and-curator-blog.md).
+
 - [Все локальные моковые данные и миксины загрузки](docs/local-mock-data.md).
 - [Бизнес-правила и матрица требований](docs/business-rules.md).
 - [Git-провайдеры и webhooks](docs/integrations.md).

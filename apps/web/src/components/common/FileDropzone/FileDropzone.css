@@ -1,0 +1,42 @@
+.file-dropzone {
+  border: 1px dashed #cdd7ee;
+  border-radius: 8px;
+  background: #fafbff;
+  margin: 16px 0;
+}
+.file-dropzone.dragging {
+  background: var(--primary-soft);
+  border-color: var(--primary);
+}
+.file-dropzone input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+}
+.file-dropzone button {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 9px;
+  padding: 24px 12px;
+  background: transparent;
+  border: 0;
+  color: var(--ink);
+}
+.file-dropzone i {
+  font-size: 22px;
+  color: var(--primary);
+}
+.file-dropzone strong {
+  font-size: 12px;
+}
+.file-dropzone span {
+  color: var(--muted);
+  font-size: 10px;
+}
+.file-dropzone.disabled {
+  opacity: 0.65;
+}

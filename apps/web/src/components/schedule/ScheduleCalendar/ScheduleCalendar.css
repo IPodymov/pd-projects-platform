@@ -1,0 +1,103 @@
+.calendar-container {
+  padding: 0;
+  overflow-x: auto;
+}
+
+.calendar-empty {
+  padding: 16px 20px;
+  margin: 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.week-calendar {
+  table-layout: fixed;
+  min-width: 800px;
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.week-calendar th,
+.week-calendar td {
+  border-right: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  padding: 6px;
+  vertical-align: top;
+}
+
+.week-calendar thead th {
+  height: 54px;
+  font-size: 11px;
+  text-align: center;
+  vertical-align: middle;
+  background: white;
+}
+
+.week-calendar td {
+  height: 70px;
+}
+
+.week-calendar .time-label {
+  width: 65px;
+  color: var(--muted);
+  font-size: 10px;
+  font-weight: 500;
+  text-align: center;
+  padding-top: 12px;
+}
+
+.week-calendar .today {
+  color: var(--primary);
+  background: var(--primary-soft);
+}
+
+.calendar-event {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  width: 100%;
+  text-align: left;
+  background: #eef2ff;
+  border: 1px solid #dce4ff;
+  border-radius: 6px;
+  padding: 9px;
+  color: #3656b5;
+  font-size: 10px;
+  margin: 0 0 5px;
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+
+.calendar-event strong {
+  font-size: 11px;
+}
+
+.course-event {
+  background: #eaf7ef;
+  border-color: #d8ecdf;
+  color: #34805b;
+}
+
+.cancelled-event {
+  background: #fff7df;
+  border-color: #f0e4b8;
+  color: #926c2e;
+}
+
+.month-calendar {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  min-width: 700px;
+}
+
+.calendar-day {
+  min-height: 120px;
+  padding: 9px;
+  border-right: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+}
+
+.calendar-day>strong {
+  display: block;
+  font-size: 11px;
+  margin-bottom: 10px;
+}

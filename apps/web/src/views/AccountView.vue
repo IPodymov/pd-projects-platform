@@ -76,6 +76,10 @@ async function submit() {
     </div>
   </div>
   <div class="panel">
+    <p v-if="!session.staff" class="helper">
+      Чтобы получить доступ к обучению, попросите администратора добавить вашу почту
+      {{ session.user?.email }} в класс. Приглашение учреждения можно принять после входа.
+    </p>
     <h2>Профиль</h2>
     <form class="form" @submit.prevent="saveProfile">
       <label>ФИО<input v-model="profile.display_name" maxlength="200" required /></label

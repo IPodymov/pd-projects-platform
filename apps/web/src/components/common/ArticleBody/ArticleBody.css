@@ -1,0 +1,30 @@
+.article-body {
+  overflow-wrap: anywhere;
+  line-height: 1.75;
+}
+.article-body :deep(img) {
+  max-width: 100%;
+  height: auto;
+}
+.article-body :deep(pre) {
+  overflow-x: auto;
+  padding: 16px;
+  background: #f1f3f5;
+  color: #202530;
+  border-radius: 8px;
+}
+.article-body :deep(blockquote) {
+  margin-left: 0;
+  padding-left: 16px;
+  border-left: 3px solid #8597ac;
+}
+.article-body :deep(table) {
+  display: block;
+  overflow-x: auto;
+  border-collapse: collapse;
+}
+.article-body :deep(td),
+.article-body :deep(th) {
+  border: 1px solid #aaa;
+  padding: 8px;
+}

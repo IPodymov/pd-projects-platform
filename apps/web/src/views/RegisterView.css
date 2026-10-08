@@ -1,0 +1,17 @@
+.register-view {
+  width: 100%;
+  max-width: 440px;
+  padding: 20px;
+}
+.register-view h1 {
+  font-size: 22px;
+  margin-bottom: 18px;
+}
+.register-switch {
+  font-size: 12px;
+  margin: 20px 0 0;
+}
+.register-switch a {
+  color: var(--primary-ink);
+  font-weight: 700;
+}

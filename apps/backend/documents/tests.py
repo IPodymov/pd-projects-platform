@@ -78,3 +78,28 @@ class DocumentTests(PlatformCase):
         self.assertTrue(any(row["kind"] == "add" for row in job.result["lines"]))
         with self.assertRaises(PermissionDenied):
             request_comparison(self.stranger, old, new)
+
+    def test_pdf_upload_restore_and_no_text_comparison(self):
+        from rest_framework.exceptions import ValidationError
+
+        project = Project.objects.create(title="Материалы", classroom=self.classroom)
+        ProjectMember.objects.create(project=project, user=self.student)
+        document = Document.objects.create(title="PDF", project=project)
+        with self.assertRaises(ValidationError):
+            upload_version(
+                self.student, document, SimpleUploadedFile("fake.pdf", b"html")
+            )
+        version = upload_version(
+            self.student,
+            document,
+            SimpleUploadedFile("material.pdf", b"%PDF-1.4\n%%EOF"),
+        )
+        self.assertEqual(version.extraction_status, "unavailable")
+        restored = restore(self.student, version)
+        self.assertEqual(restored.checksum, version.checksum)
+        with self.assertRaises(ValidationError):
+            compare(self.student, version, restored)
+        self.client.force_authenticate(self.student)
+        response = self.client.get(f"/api/v1/document-versions/{version.pk}/download/")
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(b"".join(response.streaming_content), b"%PDF-1.4\n%%EOF")

@@ -1,0 +1,41 @@
+.project-status {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: -12px 0 20px;
+}
+.project-steps {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+.project-steps > div {
+  display: grid;
+  gap: 6px;
+  font-size: 12px;
+}
+.project-columns {
+  display: grid;
+  grid-template-columns: minmax(0, 1.5fr) minmax(260px, 1fr);
+  gap: 20px;
+  align-items: start;
+}
+.project-primary,
+.project-secondary {
+  display: grid;
+  gap: 20px;
+  min-width: 0;
+}
+summary {
+  cursor: pointer;
+  font-weight: 700;
+}
+details[open] summary {
+  margin-bottom: 16px;
+}
+@media (max-width: 1000px) {
+  .project-columns {
+    grid-template-columns: 1fr;
+  }
+}

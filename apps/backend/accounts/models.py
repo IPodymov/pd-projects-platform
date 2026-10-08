@@ -3,6 +3,7 @@ from django.db import models
 
 
 class User(AbstractUser):
+    updated_at = models.DateTimeField(auto_now=True)
     email = models.EmailField(unique=True)
     email_verified_at = models.DateTimeField(null=True, blank=True)
     date_of_birth = models.DateField(null=True, blank=True)
@@ -36,3 +37,15 @@ class LoginEvent(Entity):
     user = models.ForeignKey(
         User, related_name="login_events", on_delete=models.PROTECT
     )
+
+
+class RegistrationRequest(Entity):
+    email = models.EmailField(unique=True)
+    display_name = models.CharField(max_length=200)
+    date_of_birth = models.DateField(null=True, blank=True)
+    password_hash = models.CharField(max_length=128)
+    code_hash = models.CharField(max_length=64)
+    encrypted_code = models.TextField(blank=True)
+    expires_at = models.DateTimeField()
+    attempts = models.PositiveSmallIntegerField(default=0)
+    consumed_at = models.DateTimeField(null=True, blank=True)

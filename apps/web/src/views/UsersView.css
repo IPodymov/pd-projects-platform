@@ -1,0 +1,13 @@
+.user-card {
+  margin-top: 20px;
+}
+.assignment-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 24px;
+}
+@media (max-width: 900px) {
+  .assignment-grid {
+    grid-template-columns: 1fr;
+  }
+}

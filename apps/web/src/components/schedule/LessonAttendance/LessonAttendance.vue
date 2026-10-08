@@ -2,7 +2,7 @@
 import { ref, onMounted, watch } from 'vue'
 import Button from 'primevue/button'
 import { api } from '@/api'
-import FormFeedback from './FormFeedback.vue'
+import FormFeedback from '../../common/FormFeedback/FormFeedback.vue'
 import { useOperation } from '@/composables/useOperation'
 import type { components } from '@future/api-client'
 const props = defineProps<{ lesson: components['schemas']['Lesson'] }>(),

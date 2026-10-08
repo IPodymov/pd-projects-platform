@@ -1,0 +1,43 @@
+.platform-layout {
+  min-height: 100dvh;
+}
+.platform-workspace {
+  margin-left: 186px;
+}
+.platform-main {
+  padding: 24px 30px 40px;
+  max-width: 1440px;
+  margin: auto;
+}
+.platform-mobile-header {
+  display: none;
+}
+@media (min-width: 1400px) {
+  .platform-main {
+    padding-top: 32px;
+  }
+}
+@media (max-width: 760px) {
+  .platform-workspace {
+    margin-left: 0;
+  }
+  .platform-main {
+    padding: 22px 16px 32px;
+  }
+  .platform-mobile-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    height: 60px;
+    padding: 0 16px;
+    background: white;
+    border-bottom: 1px solid var(--line);
+    font-weight: 800;
+  }
+  .platform-mobile-header button {
+    border: 0;
+    background: none;
+    padding: 10px;
+    color: var(--ink);
+  }
+}

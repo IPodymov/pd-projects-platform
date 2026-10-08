@@ -327,3 +327,8 @@ SPECTACULAR_SETTINGS["ENUM_NAME_OVERRIDES"].update(
         ],
     }
 )
+
+CELERY_BEAT_SCHEDULE["expire-registrations"] = {
+    "task": "accounts.tasks.expire_registrations",
+    "schedule": 300.0,
+}

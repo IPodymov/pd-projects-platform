@@ -2,7 +2,7 @@
 import { jobErrorMessage } from '@/utils/errors'
 import { ref, onMounted, onBeforeUnmount } from 'vue'
 import Button from 'primevue/button'
-import FormFeedback from './FormFeedback.vue'
+import FormFeedback from '../../common/FormFeedback/FormFeedback.vue'
 import { api } from '@/api'
 import { useOperation } from '@/composables/useOperation'
 import { useSession } from '@/stores/session'

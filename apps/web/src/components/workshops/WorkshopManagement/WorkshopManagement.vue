@@ -3,7 +3,7 @@ import { ref, onMounted, computed } from 'vue'
 import Button from 'primevue/button'
 import { api } from '@/api'
 import { toLocalDateTime } from '@/utils/dateTime'
-import FormFeedback from './FormFeedback.vue'
+import FormFeedback from '../../common/FormFeedback/FormFeedback.vue'
 import { useSession } from '@/stores/session'
 import { useOperation } from '@/composables/useOperation'
 import { useUnsavedChanges } from '@/composables/useUnsavedChanges'
@@ -128,7 +128,7 @@ async function cancel(path: string, body?: unknown) {
 onMounted(() => void op.execute(load, ''))
 </script>
 <template>
-  <section v-if="session.staff" class="panel" style="margin-top: 24px">
+  <section v-if="session.staff" class="panel" data-layout="workshopmanagement-style-1">
     <h2>Организация мастер-классов</h2>
     <FormFeedback :error="op.error.value" :fields="op.fields.value" :success="op.success.value" />
     <form v-if="organizer" class="form" @input="dirty = true" @submit.prevent="save">
@@ -353,3 +353,4 @@ onMounted(() => void op.execute(load, ''))
     </p>
   </section>
 </template>
+<style src="./WorkshopManagement.css" scoped></style>

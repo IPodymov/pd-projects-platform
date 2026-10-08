@@ -174,3 +174,65 @@ class ProfileView(APIView):
                 details={"fields": list(s.validated_data)},
             )
         return Response(ProfileSerializer(user).data)
+
+
+class RegistrationInputSerializer(serializers.Serializer):
+    display_name = serializers.CharField(max_length=200)
+    email = serializers.EmailField()
+    password = serializers.CharField(
+        write_only=True, max_length=128, trim_whitespace=False
+    )
+    date_of_birth = serializers.DateField(required=False, allow_null=True)
+
+    def validate_date_of_birth(self, value):
+        return ProfileUpdateSerializer().validate_date_of_birth(value)
+
+    def validate(self, data):
+        forbidden = set(self.initial_data) - set(self.fields)
+        if forbidden:
+            raise serializers.ValidationError(
+                {key: "Поле недоступно при регистрации" for key in forbidden}
+            )
+        return data
+
+
+@method_decorator(csrf_protect, name="dispatch")
+class RegistrationRequestView(APIView):
+    permission_classes = [AllowAny]
+
+    @extend_schema(
+        request=RegistrationInputSerializer, responses=EmailChangeResponseSerializer
+    )
+    def post(self, request):
+        from .registration import request_registration
+
+        if request.user.is_authenticated:
+            raise serializers.ValidationError("Вы уже вошли в аккаунт")
+        s = RegistrationInputSerializer(data=request.data)
+        s.is_valid(raise_exception=True)
+        pending = request_registration(s.validated_data)
+        return Response(
+            {"id": pending.pk, "detail": "Код отправлен на вашу почту"}, status=202
+        )
+
+
+@method_decorator(csrf_protect, name="dispatch")
+class RegistrationConfirmView(APIView):
+    permission_classes = [AllowAny]
+
+    @extend_schema(
+        request=EmailChangeConfirmationSerializer, responses=SessionSerializer
+    )
+    def post(self, request):
+        from .registration import confirm_registration
+
+        if request.user.is_authenticated:
+            raise serializers.ValidationError("Вы уже вошли в аккаунт")
+        s = EmailChangeConfirmationSerializer(data=request.data)
+        s.is_valid(raise_exception=True)
+        user = confirm_registration(s.validated_data["id"], s.validated_data["code"])
+        login(request, user, backend="django.contrib.auth.backends.ModelBackend")
+        from .models import LoginEvent
+
+        LoginEvent.objects.create(user=user)
+        return SessionView().get(request)

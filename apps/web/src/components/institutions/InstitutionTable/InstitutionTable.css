@@ -1,0 +1,27 @@
+.table-heading {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  align-items: center;
+  margin-bottom: 16px;
+}
+.table-heading h2 {
+  margin: 0;
+}
+.table-heading input {
+  max-width: 220px;
+}
+.kind {
+  display: block;
+  margin-top: 5px;
+  font-size: 10px;
+}
+@media (max-width: 650px) {
+  .table-heading {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .table-heading input {
+    max-width: none;
+  }
+}

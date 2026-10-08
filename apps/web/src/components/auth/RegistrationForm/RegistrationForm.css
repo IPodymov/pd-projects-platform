@@ -1,0 +1,10 @@
+.form {
+  gap: 12px;
+}
+.form :deep(.p-button) {
+  width: 100%;
+}
+.helper {
+  font-size: 11px;
+  line-height: 1.45;
+}

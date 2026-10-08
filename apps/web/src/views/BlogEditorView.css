@@ -1,0 +1,15 @@
+.blog-editor-columns {
+  display: grid;
+  grid-template-columns: minmax(0, 2fr) minmax(230px, 1fr);
+  gap: 20px;
+  align-items: start;
+}
+.blog-editor-settings {
+  display: grid;
+  gap: 20px;
+}
+@media (max-width: 1000px) {
+  .blog-editor-columns {
+    grid-template-columns: 1fr;
+  }
+}

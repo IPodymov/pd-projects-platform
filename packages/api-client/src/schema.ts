@@ -244,6 +244,102 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v1/course-lessons/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["course_lessons_list"];
+        put?: never;
+        post: operations["course_lessons_create"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/course-lessons/{id}/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["course_lessons_retrieve"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch: operations["course_lessons_partial_update"];
+        trace?: never;
+    };
+    "/api/v1/course-lessons/{id}/complete/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["course_lessons_complete_create"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/course-materials/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["course_materials_list"];
+        put?: never;
+        post: operations["course_materials_create"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/course-materials/{id}/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["course_materials_retrieve"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/course-materials/{id}/download/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["course_materials_download_retrieve"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/v1/course-submissions/": {
         parameters: {
             query?: never;
@@ -1332,6 +1428,70 @@ export interface paths {
         patch: operations["publications_partial_update"];
         trace?: never;
     };
+    "/api/v1/publications/{id}/attachment/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["publications_attachment_retrieve"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/publications/{id}/attachments/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["publications_attachments_list"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/publications/{id}/image/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["publications_image_retrieve"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/publications/{id}/remove_attachment/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["publications_remove_attachment_create"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/v1/publications/{id}/transition/": {
         parameters: {
             query?: never;
@@ -1342,6 +1502,38 @@ export interface paths {
         get?: never;
         put?: never;
         post: operations["publications_transition_create"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/publications/{id}/upload_attachment/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["publications_upload_attachment_create"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/publications/{id}/upload_image/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["publications_upload_image_create"];
         delete?: never;
         options?: never;
         head?: never;
@@ -1390,6 +1582,38 @@ export interface paths {
         get?: never;
         put?: never;
         post: operations["pull_requests_assign_create"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/registration/confirm/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["registration_confirm_create"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/registration/request/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["registration_request_create"];
         delete?: never;
         options?: never;
         head?: never;
@@ -1850,6 +2074,118 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v1/users/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["users_list"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/users/{id}/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["users_retrieve"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch: operations["users_partial_update"];
+        trace?: never;
+    };
+    "/api/v1/users/{id}/add_course/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["users_add_course_create"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/users/{id}/add_project/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["users_add_project_create"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/users/{id}/create_project/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["users_create_project_create"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/users/{id}/set_class/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["users_set_class_create"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/users/add_student/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["users_add_student_create"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/v1/webhooks/{id}/": {
         parameters: {
             query?: never;
@@ -2119,6 +2455,21 @@ export interface components {
          * @enum {string}
          */
         AudienceEnum: "all" | "partners" | "selected";
+        BlogImageResult: {
+            /** Format: uuid */
+            id: string;
+            path: string;
+        };
+        BlogImageUploadRequest: {
+            /** Format: binary */
+            file: string;
+        };
+        ClassAssignmentInputRequest: {
+            /** Format: uuid */
+            classroom: string;
+            /** Format: uuid */
+            membership?: string | null;
+        };
         Classroom: {
             /** Format: uuid */
             readonly id: string;
@@ -2196,6 +2547,56 @@ export interface components {
             readonly status: components["schemas"]["CourseStatusEnum"];
             /** Format: date-time */
             readonly updated_at: string;
+        };
+        CourseAssignmentInputRequest: {
+            /** Format: uuid */
+            course: string;
+            /** Format: uuid */
+            classroom: string;
+        };
+        CourseLesson: {
+            /** Format: uuid */
+            readonly id: string;
+            /** Format: uuid */
+            course: string;
+            title: string;
+            body: string;
+            /** Format: int64 */
+            position?: number;
+            readonly completed: boolean;
+            /** Format: date-time */
+            readonly updated_at: string;
+        };
+        CourseLessonRequest: {
+            /** Format: uuid */
+            course: string;
+            title: string;
+            body: string;
+            /** Format: int64 */
+            position?: number;
+        };
+        CourseMaterial: {
+            /** Format: uuid */
+            readonly id: string;
+            /** Format: uuid */
+            readonly course: string;
+            readonly title: string;
+            readonly author: number;
+            readonly author_name: string;
+            readonly filename: string;
+            readonly size: number;
+            readonly teaching_resource: boolean;
+            /** Format: date-time */
+            readonly created_at: string;
+            /** Format: date-time */
+            readonly updated_at: string;
+        };
+        CourseMaterialUploadRequest: {
+            /** Format: uuid */
+            course: string;
+            title: string;
+            /** Format: binary */
+            file: string;
         };
         CourseRequest: {
             title: string;
@@ -2541,6 +2942,41 @@ export interface components {
             email: string;
             password: string;
         };
+        ManagedUser: {
+            readonly id: number;
+            /** Format: email */
+            readonly email: string;
+            readonly name: string;
+            display_name?: string;
+            /** Format: date */
+            date_of_birth?: string | null;
+            /**
+             * Активный
+             * @description Отметьте, если пользователь должен считаться активным. Уберите эту отметку вместо удаления учётной записи.
+             */
+            is_active?: boolean;
+            /** Format: date-time */
+            readonly email_verified_at: string | null;
+            /**
+             * Дата регистрации
+             * Format: date-time
+             */
+            readonly date_joined: string;
+            readonly memberships: {
+                [key: string]: unknown;
+            }[];
+            readonly enrollments: {
+                [key: string]: unknown;
+            }[];
+            readonly projects: {
+                [key: string]: unknown;
+            }[];
+            readonly staff_assignments: {
+                [key: string]: unknown;
+            }[];
+            /** Format: date-time */
+            readonly updated_at: string;
+        };
         MaterialTransitionRequest: {
             status: components["schemas"]["PublicationTransition"];
         };
@@ -2636,6 +3072,13 @@ export interface components {
          * @enum {string}
          */
         MilestoneStatusEnum: "planned" | "active" | "submitted" | "revision" | "accepted";
+        NewUserProjectInputRequest: {
+            title: string;
+            /** @default  */
+            description: string;
+            /** Format: uuid */
+            classroom: string;
+        };
         Notification: {
             /** Format: uuid */
             readonly id: string;
@@ -2738,6 +3181,21 @@ export interface components {
             previous?: string | null;
             results: components["schemas"]["Competition"][];
         };
+        PaginatedCourseLessonList: {
+            /** @example 123 */
+            count: number;
+            /**
+             * Format: uri
+             * @example http://api.example.org/accounts/?page=4
+             */
+            next?: string | null;
+            /**
+             * Format: uri
+             * @example http://api.example.org/accounts/?page=2
+             */
+            previous?: string | null;
+            results: components["schemas"]["CourseLesson"][];
+        };
         PaginatedCourseList: {
             /** @example 123 */
             count: number;
@@ -2752,6 +3210,21 @@ export interface components {
              */
             previous?: string | null;
             results: components["schemas"]["Course"][];
+        };
+        PaginatedCourseMaterialList: {
+            /** @example 123 */
+            count: number;
+            /**
+             * Format: uri
+             * @example http://api.example.org/accounts/?page=4
+             */
+            next?: string | null;
+            /**
+             * Format: uri
+             * @example http://api.example.org/accounts/?page=2
+             */
+            previous?: string | null;
+            results: components["schemas"]["CourseMaterial"][];
         };
         PaginatedCourseWorkList: {
             /** @example 123 */
@@ -2888,6 +3361,21 @@ export interface components {
             previous?: string | null;
             results: components["schemas"]["Lesson"][];
         };
+        PaginatedManagedUserList: {
+            /** @example 123 */
+            count: number;
+            /**
+             * Format: uri
+             * @example http://api.example.org/accounts/?page=4
+             */
+            next?: string | null;
+            /**
+             * Format: uri
+             * @example http://api.example.org/accounts/?page=2
+             */
+            previous?: string | null;
+            results: components["schemas"]["ManagedUser"][];
+        };
         PaginatedMemberList: {
             /** @example 123 */
             count: number;
@@ -2992,6 +3480,21 @@ export interface components {
              */
             previous?: string | null;
             results: components["schemas"]["Prospect"][];
+        };
+        PaginatedPublicationAttachmentList: {
+            /** @example 123 */
+            count: number;
+            /**
+             * Format: uri
+             * @example http://api.example.org/accounts/?page=4
+             */
+            next?: string | null;
+            /**
+             * Format: uri
+             * @example http://api.example.org/accounts/?page=2
+             */
+            previous?: string | null;
+            results: components["schemas"]["PublicationAttachment"][];
         };
         PaginatedPublicationList: {
             /** @example 123 */
@@ -3284,6 +3787,14 @@ export interface components {
             topic?: string;
             visibility?: components["schemas"]["VisibilityEnum"];
         };
+        PatchedCourseLessonRequest: {
+            /** Format: uuid */
+            course?: string;
+            title?: string;
+            body?: string;
+            /** Format: int64 */
+            position?: number;
+        };
         PatchedCourseRequest: {
             title?: string;
             description?: string;
@@ -3325,6 +3836,16 @@ export interface components {
             /** @default 1 */
             repeat_weeks: number;
         };
+        PatchedManagedUserRequest: {
+            display_name?: string;
+            /** Format: date */
+            date_of_birth?: string | null;
+            /**
+             * Активный
+             * @description Отметьте, если пользователь должен считаться активным. Уберите эту отметку вместо удаления учётной записи.
+             */
+            is_active?: boolean;
+        };
         PatchedMemberRequest: {
             /** Format: uuid */
             project?: string;
@@ -3353,6 +3874,7 @@ export interface components {
             slug?: string;
             title?: string;
             body?: string;
+            lead?: string;
             topic?: string;
             visibility?: components["schemas"]["VisibilityEnum"];
         };
@@ -3439,6 +3961,18 @@ export interface components {
             /** Format: date-time */
             due_at?: string | null;
         };
+        ProjectAssignmentInputRequest: {
+            /** Format: uuid */
+            project: string;
+            /** @default member */
+            role: components["schemas"]["ProjectAssignmentInputRoleEnum"];
+        };
+        /**
+         * @description * `member` - member
+         *     * `leader` - leader
+         * @enum {string}
+         */
+        ProjectAssignmentInputRoleEnum: "member" | "leader";
         ProjectRequest: {
             title: string;
             description?: string;
@@ -3481,16 +4015,32 @@ export interface components {
             slug: string;
             title: string;
             body: string;
+            lead?: string;
+            readonly author: number | null;
+            readonly author_name: string;
+            /** Format: date-time */
+            readonly created_at: string;
             topic: string;
             visibility?: components["schemas"]["VisibilityEnum"];
             readonly status: string;
             /** Format: date-time */
             readonly updated_at: string;
         };
+        PublicationAttachment: {
+            /** Format: uuid */
+            id: string;
+            filename: string;
+            size: number;
+        };
+        PublicationAttachmentRemoveRequest: {
+            /** Format: uuid */
+            attachment: string;
+        };
         PublicationRequest: {
             slug: string;
             title: string;
             body: string;
+            lead?: string;
             topic: string;
             visibility?: components["schemas"]["VisibilityEnum"];
         };
@@ -3533,6 +4083,14 @@ export interface components {
             readonly attended: boolean;
             /** Format: date-time */
             readonly updated_at: string;
+        };
+        RegistrationInputRequest: {
+            display_name: string;
+            /** Format: email */
+            email: string;
+            password: string;
+            /** Format: date */
+            date_of_birth?: string | null;
         };
         /**
          * @description * `confirmed` - Подтверждено
@@ -3615,6 +4173,12 @@ export interface components {
          * @enum {string}
          */
         StaffRoleEnum: "admin" | "curator" | "teacher" | "organizer" | "workshop_teacher";
+        StudentAttachInputRequest: {
+            /** Format: email */
+            email: string;
+            /** Format: uuid */
+            classroom: string;
+        };
         Submission: {
             /** Format: uuid */
             readonly id: string;
@@ -4468,6 +5032,220 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["Competition"];
+                };
+            };
+        };
+    };
+    course_lessons_list: {
+        parameters: {
+            query?: {
+                /** @description A page number within the paginated result set. */
+                page?: number;
+                /** @description Number of results to return per page. */
+                page_size?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PaginatedCourseLessonList"];
+                };
+            };
+        };
+    };
+    course_lessons_create: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["CourseLessonRequest"];
+                "application/x-www-form-urlencoded": components["schemas"]["CourseLessonRequest"];
+                "multipart/form-data": components["schemas"]["CourseLessonRequest"];
+            };
+        };
+        responses: {
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["CourseLesson"];
+                };
+            };
+        };
+    };
+    course_lessons_retrieve: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description A UUID string identifying this course lesson. */
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["CourseLesson"];
+                };
+            };
+        };
+    };
+    course_lessons_partial_update: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description A UUID string identifying this course lesson. */
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: {
+            content: {
+                "application/json": components["schemas"]["PatchedCourseLessonRequest"];
+                "application/x-www-form-urlencoded": components["schemas"]["PatchedCourseLessonRequest"];
+                "multipart/form-data": components["schemas"]["PatchedCourseLessonRequest"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["CourseLesson"];
+                };
+            };
+        };
+    };
+    course_lessons_complete_create: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description A UUID string identifying this course lesson. */
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Enrollment"];
+                };
+            };
+        };
+    };
+    course_materials_list: {
+        parameters: {
+            query?: {
+                /** @description A page number within the paginated result set. */
+                page?: number;
+                /** @description Number of results to return per page. */
+                page_size?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PaginatedCourseMaterialList"];
+                };
+            };
+        };
+    };
+    course_materials_create: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["CourseMaterialUploadRequest"];
+                "application/x-www-form-urlencoded": components["schemas"]["CourseMaterialUploadRequest"];
+                "multipart/form-data": components["schemas"]["CourseMaterialUploadRequest"];
+            };
+        };
+        responses: {
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["CourseMaterial"];
+                };
+            };
+        };
+    };
+    course_materials_retrieve: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description A UUID string identifying this course material. */
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["CourseMaterial"];
+                };
+            };
+        };
+    };
+    course_materials_download_retrieve: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description A UUID string identifying this course material. */
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/octet-stream": string;
                 };
             };
         };
@@ -6637,6 +7415,104 @@ export interface operations {
             };
         };
     };
+    publications_attachment_retrieve: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description A UUID string identifying this publication. */
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/octet-stream": string;
+                };
+            };
+        };
+    };
+    publications_attachments_list: {
+        parameters: {
+            query?: {
+                /** @description A page number within the paginated result set. */
+                page?: number;
+                /** @description Number of results to return per page. */
+                page_size?: number;
+            };
+            header?: never;
+            path: {
+                /** @description A UUID string identifying this publication. */
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PaginatedPublicationAttachmentList"];
+                };
+            };
+        };
+    };
+    publications_image_retrieve: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description A UUID string identifying this publication. */
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "image/jpeg": string;
+                };
+            };
+        };
+    };
+    publications_remove_attachment_create: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description A UUID string identifying this publication. */
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["PublicationAttachmentRemoveRequest"];
+                "application/x-www-form-urlencoded": components["schemas"]["PublicationAttachmentRemoveRequest"];
+                "multipart/form-data": components["schemas"]["PublicationAttachmentRemoveRequest"];
+            };
+        };
+        responses: {
+            /** @description No response body */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
     publications_transition_create: {
         parameters: {
             query?: never;
@@ -6661,6 +7537,62 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["Publication"];
+                };
+            };
+        };
+    };
+    publications_upload_attachment_create: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description A UUID string identifying this publication. */
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["BlogImageUploadRequest"];
+                "application/x-www-form-urlencoded": components["schemas"]["BlogImageUploadRequest"];
+                "multipart/form-data": components["schemas"]["BlogImageUploadRequest"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PublicationAttachment"];
+                };
+            };
+        };
+    };
+    publications_upload_image_create: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description A UUID string identifying this publication. */
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["BlogImageUploadRequest"];
+                "application/x-www-form-urlencoded": components["schemas"]["BlogImageUploadRequest"];
+                "multipart/form-data": components["schemas"]["BlogImageUploadRequest"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["BlogImageResult"];
                 };
             };
         };
@@ -6735,6 +7667,56 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["LearningReview"];
+                };
+            };
+        };
+    };
+    registration_confirm_create: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["EmailChangeConfirmationRequest"];
+                "application/x-www-form-urlencoded": components["schemas"]["EmailChangeConfirmationRequest"];
+                "multipart/form-data": components["schemas"]["EmailChangeConfirmationRequest"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Session"];
+                };
+            };
+        };
+    };
+    registration_request_create: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["RegistrationInputRequest"];
+                "application/x-www-form-urlencoded": components["schemas"]["RegistrationInputRequest"];
+                "multipart/form-data": components["schemas"]["RegistrationInputRequest"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["EmailChangeResponse"];
                 };
             };
         };
@@ -7631,6 +8613,217 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["Topic"];
+                };
+            };
+        };
+    };
+    users_list: {
+        parameters: {
+            query?: {
+                /** @description A page number within the paginated result set. */
+                page?: number;
+                /** @description Number of results to return per page. */
+                page_size?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PaginatedManagedUserList"];
+                };
+            };
+        };
+    };
+    users_retrieve: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description A unique integer value identifying this user. */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ManagedUser"];
+                };
+            };
+        };
+    };
+    users_partial_update: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description A unique integer value identifying this user. */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: {
+            content: {
+                "application/json": components["schemas"]["PatchedManagedUserRequest"];
+                "application/x-www-form-urlencoded": components["schemas"]["PatchedManagedUserRequest"];
+                "multipart/form-data": components["schemas"]["PatchedManagedUserRequest"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ManagedUser"];
+                };
+            };
+        };
+    };
+    users_add_course_create: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description A unique integer value identifying this user. */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["CourseAssignmentInputRequest"];
+                "application/x-www-form-urlencoded": components["schemas"]["CourseAssignmentInputRequest"];
+                "multipart/form-data": components["schemas"]["CourseAssignmentInputRequest"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ManagedUser"];
+                };
+            };
+        };
+    };
+    users_add_project_create: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description A unique integer value identifying this user. */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ProjectAssignmentInputRequest"];
+                "application/x-www-form-urlencoded": components["schemas"]["ProjectAssignmentInputRequest"];
+                "multipart/form-data": components["schemas"]["ProjectAssignmentInputRequest"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ManagedUser"];
+                };
+            };
+        };
+    };
+    users_create_project_create: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description A unique integer value identifying this user. */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["NewUserProjectInputRequest"];
+                "application/x-www-form-urlencoded": components["schemas"]["NewUserProjectInputRequest"];
+                "multipart/form-data": components["schemas"]["NewUserProjectInputRequest"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ManagedUser"];
+                };
+            };
+        };
+    };
+    users_set_class_create: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description A unique integer value identifying this user. */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ClassAssignmentInputRequest"];
+                "application/x-www-form-urlencoded": components["schemas"]["ClassAssignmentInputRequest"];
+                "multipart/form-data": components["schemas"]["ClassAssignmentInputRequest"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ManagedUser"];
+                };
+            };
+        };
+    };
+    users_add_student_create: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["StudentAttachInputRequest"];
+                "application/x-www-form-urlencoded": components["schemas"]["StudentAttachInputRequest"];
+                "multipart/form-data": components["schemas"]["StudentAttachInputRequest"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ManagedUser"];
                 };
             };
         };

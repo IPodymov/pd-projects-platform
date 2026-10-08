@@ -8,6 +8,10 @@ class Topic(models.Model):
 
 
 class Publication(Entity):
+    author = models.ForeignKey(
+        "accounts.User", null=True, blank=True, on_delete=models.PROTECT
+    )
+    lead = models.TextField(blank=True, max_length=500)
     slug = models.SlugField(unique=True)
     title = models.CharField(max_length=200)
     body = models.TextField()
@@ -87,3 +91,21 @@ class ApplicationTransition(Entity):
     status = models.CharField(max_length=20)
     feedback = models.TextField(blank=True)
     snapshot = models.JSONField(default=dict)
+
+
+class PublicationImage(Entity):
+    publication = models.ForeignKey(
+        Publication, related_name="images", on_delete=models.PROTECT
+    )
+    file = models.FileField(upload_to="publication-images/%Y/%m")
+    content_type = models.CharField(max_length=30)
+
+
+class PublicationAttachment(Entity):
+    publication = models.ForeignKey(
+        Publication, related_name="attachments", on_delete=models.PROTECT
+    )
+    file = models.FileField(upload_to="publication-attachments/%Y/%m")
+    filename = models.CharField(max_length=200)
+    size = models.PositiveIntegerField()
+    removed = models.BooleanField(default=False)

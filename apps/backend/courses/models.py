@@ -118,3 +118,34 @@ class CourseReview(Entity):
         max_length=20, choices=[("revision", "Доработка"), ("accepted", "Принято")]
     )
     feedback = models.TextField(blank=True)
+
+
+class CourseMaterial(Entity):
+    course = models.ForeignKey(
+        Course, related_name="materials", on_delete=models.PROTECT
+    )
+    author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT)
+    title = models.CharField(max_length=200)
+    file = models.FileField(upload_to="course-materials/%Y/%m")
+    filename = models.CharField(max_length=200)
+    size = models.PositiveIntegerField()
+    teaching_resource = models.BooleanField(default=False)
+
+
+class CourseLesson(Entity):
+    course = models.ForeignKey(Course, related_name="lessons", on_delete=models.PROTECT)
+    title = models.CharField(max_length=200)
+    body = models.TextField()
+    position = models.PositiveIntegerField(default=0)
+
+
+class LessonCompletion(Entity):
+    lesson = models.ForeignKey(CourseLesson, on_delete=models.PROTECT)
+    enrollment = models.ForeignKey(Enrollment, on_delete=models.PROTECT)
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields=["lesson", "enrollment"], name="unique_lesson_completion"
+            )
+        ]

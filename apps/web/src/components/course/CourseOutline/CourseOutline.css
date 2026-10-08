@@ -1,0 +1,18 @@
+.course-outline h2 {
+  font-size: 15px;
+  padding-bottom: 8px;
+  margin-bottom: 0;
+  border-bottom: 1px solid var(--line);
+}
+.course-outline > a,
+.course-outline > div {
+  display: grid;
+  gap: 6px;
+  font-size: 12px;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--line);
+}
+.course-outline > a:last-child {
+  color: var(--primary-ink);
+  border-bottom: 0;
+}

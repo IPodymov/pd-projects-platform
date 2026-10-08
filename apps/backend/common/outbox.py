@@ -40,7 +40,7 @@ def execute(pk):
     from .tasks import deliver_notification
     from invitations.tasks import send_invitation
     from documents.tasks import extract_text, run_comparison
-    from accounts.tasks import deliver_email_change
+    from accounts.tasks import deliver_email_change, deliver_registration
     from integrations.tasks import synchronize
 
     handlers = {
@@ -50,6 +50,7 @@ def execute(pk):
         "extract": extract_text,
         "compare": run_comparison,
         "email_change": deliver_email_change,
+        "registration": deliver_registration,
     }
     now = timezone.now()
     with transaction.atomic():

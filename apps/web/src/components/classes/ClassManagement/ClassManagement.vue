@@ -2,7 +2,7 @@
 import { ref, onMounted, watch } from 'vue'
 import Button from 'primevue/button'
 import { api } from '@/api'
-import FormFeedback from './FormFeedback.vue'
+import FormFeedback from '../../common/FormFeedback/FormFeedback.vue'
 import { useOperation } from '@/composables/useOperation'
 import { useSession } from '@/stores/session'
 import type { components } from '@future/api-client'
@@ -43,7 +43,7 @@ watch(
 )
 </script>
 <template>
-  <section class="panel" style="margin-top: 24px">
+  <section class="panel" data-layout="classmanagement-style-1">
     <h2>Сотрудники и состав класса</h2>
     <FormFeedback :error="op.error.value" :fields="op.fields.value" :success="op.success.value" />
     <form
@@ -143,3 +143,4 @@ watch(
     </section>
   </section>
 </template>
+<style src="./ClassManagement.css" scoped></style>

@@ -19,10 +19,9 @@ const parts = computed(() => {
 })
 </script>
 <template>
-  <span
-    v-for="(part, index) in parts"
-    :key="index"
-    :style="part.changed ? { fontWeight: '700', background: 'rgba(70,120,60,.18)' } : {}"
-    >{{ part.text }}</span
-  >
+  <span v-for="(part, index) in parts" :key="index" :class="{ changed: part.changed }">{{
+    part.text
+  }}</span>
 </template>
+
+<style src="./DiffLine.css" scoped></style>

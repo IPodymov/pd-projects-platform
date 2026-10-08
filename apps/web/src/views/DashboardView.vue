@@ -2,7 +2,7 @@
 import { errorMessage } from '@/utils/errors'
 import { onMounted, ref } from 'vue'
 import Button from 'primevue/button'
-import PageState from '@/components/PageState.vue'
+import PageState from '@/components/common/PageState/PageState.vue'
 import { useSession } from '@/stores/session'
 import { api } from '@/api'
 import type { components } from '@future/api-client'
@@ -62,7 +62,7 @@ onMounted(load)
   <section class="hero">
     <div>
       <span class="tag">ОТ ИДЕИ К РЕЗУЛЬТАТУ</span>
-      <h2 style="margin-top: 16px">Большие открытия<br />начинаются с вашей идеи.</h2>
+      <h2 data-layout="dashboardview-style-1">Большие открытия<br />начинаются с вашей идеи.</h2>
       <p>
         Учебные материалы, команда и обратная связь — всё для подготовки к конкурсу «Инженеры
         будущего».
@@ -150,3 +150,4 @@ onMounted(load)
     </p></PageState
   >
 </template>
+<style src="./DashboardView.css" scoped></style>

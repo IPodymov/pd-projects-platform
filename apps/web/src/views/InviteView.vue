@@ -40,7 +40,7 @@ async function run(accept = false) {
     </div>
     <template v-else
       ><Button label="Отправить код на почту" severity="secondary" :loading="busy" @click="run()" />
-      <form class="form" style="margin-top: 24px" @submit.prevent="run(true)">
+      <form class="form" data-layout="inviteview-style-1" @submit.prevent="run(true)">
         <label
           >Код из письма<input
             v-model="code"
@@ -63,3 +63,4 @@ async function run(accept = false) {
     <RouterLink to="/login">Перейти ко входу →</RouterLink>
   </div>
 </template>
+<style src="./InviteView.css" scoped></style>

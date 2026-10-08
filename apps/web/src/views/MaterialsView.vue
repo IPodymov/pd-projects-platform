@@ -4,14 +4,16 @@ import { formatDateTime } from '@/utils/dateTime'
 import { ref, computed, onMounted, watch } from 'vue'
 import { useRoute } from 'vue-router'
 import Button from 'primevue/button'
-import PageState from '@/components/PageState.vue'
-import FormFeedback from '@/components/FormFeedback.vue'
-import { api } from '@/api'
+import PageState from '@/components/common/PageState/PageState.vue'
+import ArticleBody from '@/components/common/ArticleBody/ArticleBody.vue'
+import FormFeedback from '@/components/common/FormFeedback/FormFeedback.vue'
+import { api, downloadUrl } from '@/api'
 import { useSession } from '@/stores/session'
 import { useOperation } from '@/composables/useOperation'
 import { useUnsavedChanges } from '@/composables/useUnsavedChanges'
 import type { components } from '@future/api-client'
 type Material = components['schemas']['Publication'] | components['schemas']['Competition']
+const preview = ref(false)
 const route = useRoute(),
   session = useSession(),
   op = useOperation(),
@@ -28,6 +30,7 @@ const route = useRoute(),
     slug: '',
     title: '',
     body: '',
+    lead: '',
     requirements: '',
     deadline: '',
     topic: '',
@@ -38,6 +41,44 @@ const route = useRoute(),
   project = ref(''),
   text = ref(''),
   feedback = ref<Record<string, string>>({})
+const canWrite = computed(
+  () =>
+    !!session.user?.platform_admin ||
+    (!competitions.value && !!session.user?.roles.includes('curator')),
+)
+function canEdit(row: Material) {
+  return (
+    !!session.user?.platform_admin ||
+    (canWrite.value && 'author' in row && row.author === session.user?.id)
+  )
+}
+async function importText(event: Event) {
+  const input = event.target as HTMLInputElement
+  const file = input.files?.[0]
+  if (!file) return
+  await op.execute(async () => {
+    if (file.size > 1024 * 1024 || !/\.(md|txt)$/i.test(file.name))
+      throw Error('Выберите Markdown или TXT до 1 МБ')
+    form.value.body = await file.text()
+  }, 'Текст импортирован. Сохраните черновик.')
+  input.value = ''
+}
+async function uploadImage(event: Event) {
+  const input = event.target as HTMLInputElement
+  const file = input.files?.[0]
+  if (!file || !editId.value) return
+  await op.execute(async () => {
+    const data = new FormData()
+    data.set('file', file)
+    const result = await api<{ path: string }>(
+      'publications/' + editId.value + '/upload_image/',
+      'POST',
+      data,
+    )
+    form.value.body += '\n\n![Изображение](' + downloadUrl(result.path) + ')\n'
+  }, 'Изображение добавлено. Сохраните текст черновика.')
+  input.value = ''
+}
 useUnsavedChanges(dirty)
 watch(form, () => (dirty.value = true), { deep: true, flush: 'sync' })
 async function load() {
@@ -67,6 +108,7 @@ function edit(row?: Material) {
     slug: row?.slug || '',
     title: row?.title || '',
     body: row && 'body' in row ? row.body : '',
+    lead: row && 'lead' in row ? row.lead || '' : '',
     requirements: row && 'requirements' in row ? row.requirements : '',
     deadline: row && 'deadline' in row ? row.deadline.slice(0, 16) : '',
     topic: row?.topic || topics.value[0]?.code || '',
@@ -85,7 +127,7 @@ async function save() {
           requirements: form.value.requirements,
           deadline: new Date(form.value.deadline).toISOString(),
         }
-      : { body: form.value.body }),
+      : { body: form.value.body, lead: form.value.lead }),
   }
   const result = await op.execute(() =>
     api(
@@ -143,10 +185,10 @@ async function editApplication(row: components['schemas']['Application']) {
       <p class="eyebrow">МАТЕРИАЛЫ ПЛАТФОРМЫ</p>
       <h1>{{ competitions ? 'Конкурсы и заявки' : 'Журнал платформы' }}</h1>
     </div>
-    <Button v-if="session.user?.platform_admin" label="Новый черновик" @click="edit()" />
+    <Button v-if="canWrite" label="Новый черновик" @click="edit()" />
   </div>
   <FormFeedback :error="op.error.value" :fields="op.fields.value" :success="op.success.value" />
-  <form v-if="session.user?.platform_admin" class="panel form" @submit.prevent="save">
+  <form v-if="canWrite" class="panel form" @submit.prevent="save">
     <h2>{{ editId ? 'Редактировать черновик' : 'Подготовить материал' }}</h2>
     <label>Название<input v-model="form.title" required maxlength="200" /></label
     ><label>Постоянный адрес<input v-model="form.slug" required pattern="[a-zA-Z0-9_-]+" /></label
@@ -162,6 +204,15 @@ async function editApplication(row: components['schemas']['Application']) {
         <option value="public">Публично</option>
         <option value="authenticated">Участники платформы</option>
       </select></label
+    ><label v-if="!competitions"
+      >Вступление для ленты<textarea v-model="form.lead" maxlength="500" /></label
+    ><label v-if="!competitions && editId"
+      >Добавить изображение (PNG, JPG до 5 МБ)<input
+        type="file"
+        accept="image/png,image/jpeg"
+        @change="uploadImage" /></label
+    ><label v-if="!competitions"
+      >Импорт текста<input type="file" accept=".md,.txt" @change="importText" /></label
     ><label
       >{{ competitions ? 'Требования' : 'Текст'
       }}<textarea v-if="competitions" v-model="form.requirements" required /><textarea
@@ -171,6 +222,16 @@ async function editApplication(row: components['schemas']['Application']) {
       /></label
     ><label v-if="competitions"
       >Приём заявок до<input v-model="form.deadline" type="datetime-local" required /></label
+    ><template v-if="!competitions"
+      ><p class="helper">
+        Markdown: заголовки ##, списки, ссылки, изображения, цитаты и блоки кода. HTML выводится как
+        текст.
+      </p>
+      <Button type="button" label="Предпросмотр" severity="secondary" @click="preview = !preview" />
+      <article v-if="preview" class="panel">
+        <h2>{{ form.title }}</h2>
+        <p>{{ form.lead }}</p>
+        <ArticleBody :body="form.body" /></article></template
     ><Button type="submit" label="Сохранить черновик" :loading="op.busy.value" />
   </form>
   <PageState :loading="loading" :error="error" :empty="!rows.length" @retry="load"
@@ -178,9 +239,17 @@ async function editApplication(row: components['schemas']['Application']) {
       <article v-for="row in rows" :key="row.id" class="panel">
         <span class="badge">{{ row.status }}</span>
         <h2>{{ row.title }}</h2>
-        <p style="white-space: pre-wrap">{{ 'body' in row ? row.body : row.requirements }}</p>
+        <template v-if="'body' in row"
+          ><p class="helper">
+            {{ row.author_name || 'Редакция платформы' }} ·
+            {{ topics.find((t) => t.code === row.topic)?.title }}
+          </p>
+          <p>{{ row.lead || row.body.slice(0, 240) }}</p>
+          <RouterLink :to="'/articles/' + row.id">Читать статью</RouterLink></template
+        >
+        <p v-else data-layout="materialsview-style-1">{{ row.requirements }}</p>
         <p v-if="'deadline' in row">До {{ formatDateTime(row.deadline) }}</p>
-        <div v-if="session.user?.platform_admin" class="actions">
+        <div v-if="canEdit(row)" class="actions">
           <Button
             v-if="row.status === 'draft'"
             label="Редактировать"
@@ -269,3 +338,4 @@ async function editApplication(row: components['schemas']['Application']) {
     </article>
   </section>
 </template>
+<style src="./MaterialsView.css" scoped></style>

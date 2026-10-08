@@ -4,6 +4,8 @@ from rest_framework.routers import DefaultRouter
 from drf_spectacular.views import SpectacularAPIView, SpectacularSwaggerView
 from accounts.views import (
     ProfileView,
+    RegistrationRequestView,
+    RegistrationConfirmView,
     SessionView,
     LoginView,
     LogoutView,
@@ -22,6 +24,8 @@ from courses.views import (
     EnrollmentViewSet,
     AssignmentViewSet,
     CourseWorkViewSet,
+    CourseMaterialViewSet,
+    CourseLessonViewSet,
 )
 from projects.views import (
     ProjectViewSet,
@@ -66,9 +70,12 @@ from integrations.views import (
     WebhookView,
 )
 
+from accounts.management_views import ManagedUserViewSet
+
 router = DefaultRouter()
 for prefix, view in [
     ("institutions", InstitutionViewSet),
+    ("users", ManagedUserViewSet),
     ("repositories", RepositoryViewSet),
     ("pull-requests", PullViewSet),
     ("git-reviews", ReviewViewSet),
@@ -78,6 +85,8 @@ for prefix, view in [
     ("teaching-assignments", TeachingViewSet),
     ("memberships", MembershipViewSet),
     ("courses", CourseViewSet),
+    ("course-materials", CourseMaterialViewSet),
+    ("course-lessons", CourseLessonViewSet),
     ("assignments", AssignmentViewSet),
     ("course-submissions", CourseWorkViewSet),
     ("milestones", MilestoneViewSet),
@@ -109,6 +118,8 @@ for prefix, view in [
     router.register(prefix, view, basename=prefix)
 urlpatterns = [
     path("api/profile/", ProfileView.as_view()),
+    path("api/registration/request/", RegistrationRequestView.as_view()),
+    path("api/registration/confirm/", RegistrationConfirmView.as_view()),
     path("api/webhooks/<uuid:pk>/", WebhookView.as_view()),
     path("api/email-change/request/", EmailChangeRequestView.as_view()),
     path("api/email-change/confirm/", EmailChangeConfirmView.as_view()),

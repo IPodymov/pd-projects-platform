@@ -3,7 +3,7 @@ import { errorMessage } from '@/utils/errors'
 import { formatDateTime } from '@/utils/dateTime'
 import { ref, onMounted } from 'vue'
 import Button from 'primevue/button'
-import PageState from '@/components/PageState.vue'
+import PageState from '@/components/common/PageState/PageState.vue'
 import { api } from '@/api'
 type Option = { id: string; name?: string; title?: string; user?: number }
 type Metrics = {
